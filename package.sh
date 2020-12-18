@@ -15,12 +15,8 @@ docker build -t rb_nginx ./nginx
 echo "------------build server images------------"
 docker build -t rb_server ./server
 
-echo "------------pull remote image------------"
-docker pull postgres:alpine
-docker pull redis:4.0-alpine
-
 echo "------------export images to deploy------------"
-docker save -o ./rainbow.tar rb_nginx:latest rb_server:latest postgres:alpine redis:4.0-alpine
+docker save -o ./rainbow.tar rb_nginx:latest rb_server:latest
 
 echo "------------move to deploy------------"
 mv ./rainbow.tar ./deploy
