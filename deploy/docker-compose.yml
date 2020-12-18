@@ -1,0 +1,42 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:13-alpine
+    container_name: rb_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: rainbow
+      POSTGRES_PASSWORD: "rainbow"
+      POSTGRES_USER: rainbow
+    volumes:
+      - "./deploy/postgresql/data:/var/lib/postgresql/data"
+  redis:
+    image: redis:6.0-alpine
+    container_name: rb_redis
+    restart: always
+  server:
+    image: rb_server:latest
+    container_name: rb_server
+    restart: always
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - "./deploy/collectstatic:/dev/resources/static"
+      - "./deploy/photos:/dev/resources/photos"
+      - "./deploy/logs/server:/dev/resources/logs"
+  nginx:
+    image: rb_nginx:latest
+    container_name: rb_nginx
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - postgres
+      - redis
+      - server
+    volumes:
+      - "./deploy/collectstatic:/web/resources/collectstatic"
+      - "./deploy/photos:/web/resources/photos"
+      - "./deploy/logs/nginx:/var/log/nginx"

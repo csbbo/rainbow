@@ -1,0 +1,7 @@
+# python3.8.5
+Django==3.1.4
+djangorestframework==3.12.2
+psycopg2==2.8.6
+django-apscheduler==0.5.1
+requests==2.25.0
+daphne==3.0.1

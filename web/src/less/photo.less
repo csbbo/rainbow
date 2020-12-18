@@ -1,0 +1,67 @@
+
+#Photo {
+  .filter {
+    padding: 20px;
+    .categorys {
+      width: 80%;
+      margin: auto;
+      .category {
+        background-color: #fff;
+        color: #606266;
+        padding: 5px 8px;
+        font-size: 13px;
+        border: 1px solid #eeeeee;
+        margin: 4px;
+      }
+    }
+  }
+
+  .show {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    .item {
+      display: inline-block;
+      width: 33.33%;
+      height: auto;
+      position: relative;
+      border: none;
+      .card {
+        display: block;
+        height: 100%;
+        background: #dedede;
+        position: relative;
+        cursor: zoom-in;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+        .description {
+          position: absolute;
+          width: 100%;
+          left: 0;
+          top: 0;
+          padding: .05rem;
+          display: block;
+          color: #fff;
+          opacity: 0;
+          -webkit-transition: all .5s ease;
+          transition: all .5s ease;
+          z-index: 1;
+          pointer-events: none;
+        }
+      }
+    }
+  }
+
+  .photo-footer {
+    padding: 40px 0;
+    .pagination {
+      text-align: center;
+    }
+    .extra-info {
+      text-align: center;
+    }
+  }
+}
