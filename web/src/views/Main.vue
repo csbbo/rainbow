@@ -7,6 +7,6 @@
 <script>
     import '@/less/main.less'
     export default {
-        name: "Main"
+        name: "Main",
     }
 </script>

@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Main from './views/Main'
 import Photo from './views/Photo'
-import NavMenu from './components/NavMenu'
 import {CheckAuthAPI} from "@/common/api";
 
 Vue.use(Router)
@@ -11,10 +10,11 @@ const router = new Router({
     mode: 'history',
     routes: [
         {path: '/', name: 'main', component: Main},
-        {path: '/navmenu', redirect: "/photo", component: NavMenu, children: [
-                {path: '/photo', name: 'photo', component: Photo},
-            ]
-        },
+        {path: '/photo', name: 'photo', component: Photo},
+        // {path: '/navmenu', redirect: "/photo", component: NavMenu, children: [
+        //         {path: '/photo', name: 'photo', component: Photo},
+        //     ]
+        // },
         // {path: '/devtest', name: 'devtest', component: DevTest},
         // {path: '/notfound', name: 'notfound', component: PageNoteFound},
         //

@@ -34,5 +34,5 @@ export const CheckAuthAPI = () => fetchData('/api/checkauth', {}, 'GET')
 // export const ShowArticlesAPI = () => fetchData('/api/showarticles', {}, 'GET')
 // export const GetArticleListAPI = () => fetchData('/api/articlelist', {}, 'GET')
 
-export const GetPhotoAPI = data => fetchData('/api/PhotoAPI', data, 'GET')
+export const GetPhotoListAPI = data => fetchData('/api/PhotoListAPI', data, 'GET')
 export const GetCategoryAPI = () => fetchData('/api/CategoryAPI', {}, 'GET')

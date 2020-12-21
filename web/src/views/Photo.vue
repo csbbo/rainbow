@@ -1,18 +1,18 @@
 <template>
     <div id="Photo">
+        <nav-menu></nav-menu>
         <div class="filter">
             <div class="categorys">
                 <span v-for="(cat, index) in category" :key="index" class="category">{{cat}}</span>
             </div>
         </div>
 
-        <div class="show">
-            <div v-for="(photo, index) in photos" :key="index" class="item">
-                <div class="card">
-                    <img src="http://h2.ioliu.cn/bing/PolarExpress_ZH-CN9522496479_1920x1080.jpg?imageslim">
-                    <div class="description">
-                        <h3 style="color: #fff">{{photo.id}}</h3>
-                    </div>
+        <div class="container">
+            <div class="item" v-for="(photo, index) in photos" :key="index">
+                <div class="card progressive">
+                    <a class="mark" href="/photo/BractCloseup_ZH-CN9096611979?force=home_1"></a>
+                    <img class="" src="http://h2.ioliu.cn/bing/BractCloseup_ZH-CN9096611979_640x480.jpg?imageslim">
+                    <div class="description"><h3>hahhahahaha{{photo.id}}</h3></div>
                 </div>
             </div>
         </div>
@@ -36,9 +36,13 @@
 
 <script>
     import '@/less/photo.less'
-    import { GetPhotoAPI, GetCategoryAPI } from "@/common/api"
+    import NavMenu from "../components/NavMenu";
+    import { GetPhotoListAPI, GetCategoryAPI } from "@/common/api"
     export default {
         name: "Photo",
+        components: {
+            "nav-menu": NavMenu
+        },
         data: () => ({
             photos: [],
             total: 0,
@@ -53,7 +57,7 @@
         },
         methods: {
             getPhoto() {
-                GetPhotoAPI({"count": this.count, "offset": this.offset}).then(resp => {
+                GetPhotoListAPI({"count": this.count, "offset": this.offset}).then(resp => {
                     this.photos = resp.data.items
                     this.total = resp.data.total
                 })

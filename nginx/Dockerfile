@@ -1,4 +1,4 @@
-FROM nginx:1.19-alpine
+FROM nginx:1.19
 ADD . /web/nginx
 
 RUN apt-get update \
