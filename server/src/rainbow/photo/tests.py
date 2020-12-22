@@ -3,7 +3,7 @@ from utils.constans import PhotoTypeEnum
 from utils.tests import APITestCase
 
 
-class PhotoAPITest(APITestCase):
+class PhotoListAPITest(APITestCase):
     def setUp(self):
         self.url = self.get_url("PhotoListAPI")
 

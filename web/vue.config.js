@@ -1,6 +1,6 @@
 module.exports = {
     productionSourceMap: false,
     devServer: {
-        proxy: 'http://localhost:8000',
+        proxy: 'https://magicstyle.fun',
     },
 }

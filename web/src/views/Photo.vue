@@ -11,8 +11,8 @@
             <div class="item" v-for="(photo, index) in photos" :key="index">
                 <div class="card progressive">
                     <a class="mark" href="/photo/BractCloseup_ZH-CN9096611979?force=home_1"></a>
-                    <img class="" src="http://h2.ioliu.cn/bing/BractCloseup_ZH-CN9096611979_640x480.jpg?imageslim">
-                    <div class="description"><h3>hahhahahaha{{photo.id}}</h3></div>
+                    <img class="" :src="photo.img_path">
+                    <div class="description"><h3>photo:{{photo.id}}</h3></div>
                 </div>
             </div>
         </div>
