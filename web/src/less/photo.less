@@ -1,5 +1,7 @@
 
 #Photo {
+  display: flex;
+  flex-direction: column;
   .filter {
     padding: 20px;
     .categorys {
@@ -16,96 +18,6 @@
     }
   }
 
-  .container {
-    font-size: 0;
-    width: 100%;
-    margin: 0;
-    position: relative;
-    border: 1px solid red;
-    .item {
-      display: inline-block;
-      width: 33.33%;
-      height: auto;
-      position: relative;
-      border: none;
-      margin: 0;
-      .card {
-        display: block;
-        height:100%;
-        background: #dedede;
-        position: relative;
-        cursor: zoom-in;
-        img {
-          width: 100%;
-          border: 0;
-        }
-        .mark {
-          width: 100%;
-          height: 100%;
-          position: absolute;
-          top: 0;
-          left: 0;
-          opacity: 0;
-          background: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgba(0, 0, 0, 0.4)), color-stop(40%, transparent), color-stop(60%, transparent), color-stop(60%, rgba(0, 0, 0, 0.6)));
-          background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.4) 0, transparent 40%, transparent 60%, rgba(0, 0, 0, 0.6));
-          background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0, transparent 40%, transparent 60%, rgba(0, 0, 0, 0.6));
-          -webkit-filter: blur(15px);
-          filter: blur(15px);
-          z-index: 1;
-          -webkit-transition: all .5s ease;
-          transition: all .5s ease;
-        }
-        .description {
-          position: absolute;
-          width: 100%;
-          left: 0;
-          top: 0;
-          padding: .05rem;
-          display: block;
-          color: #fff;
-          opacity: 0;
-          -webkit-transition: all .5s ease;
-          transition: all .5s ease;
-          z-index: 1;
-          pointer-events: none;
-          h3 {
-            font-size: .14rem;
-            letter-spacing: .01rem;
-            font-weight: 400;
-            color: #fff;
-            padding: .02rem;
-          }
-        }
-      }
-      .progressive {
-        overflow: hidden;
-        position: relative;
-        background: #efefef;
-      }
-      .progressive--is-loaded {
-        filter: blur(20px);
-        animation: sharpen 0.5s both;
-      }
-      .progressive__img {
-        width: 100%;
-        height: 100%;
-        transform: translateZ(0);
-      }
-    }
-    .item:hover .mark {
-      opacity: 1;
-    }
-    .item:hover .card .description {
-      opacity: 1;
-    }
-    a {
-      text-decoration: none;
-      -webkit-transition: color .15s linear;
-      transition: color .15s linear;
-      color: #0C8484;
-    }
-  }
-
   .photo-footer {
     padding-top: 40px;
     padding-bottom: 5px;
@@ -116,5 +28,95 @@
       text-align: center;
       margin-top: 20px;
     }
+  }
+}
+
+.show {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  .item {
+    display: inline-block;
+    width: 33.33%;
+    height: auto;
+    position: relative;
+    border: none;
+  }
+  .item .card {
+    display: block;
+    height:100%;
+    background: #dedede;
+    position: relative;
+    cursor: zoom-in;
+    margin: 0;
+  }
+  .item .card img {
+    width: 100%;
+    height: 100%;
+  }
+  .item .card .mark {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgba(0, 0, 0, 0.4)), color-stop(40%, transparent), color-stop(60%, transparent), color-stop(60%, rgba(0, 0, 0, 0.6)));
+    background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.4) 0, transparent 40%, transparent 60%, rgba(0, 0, 0, 0.6));
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0, transparent 40%, transparent 60%, rgba(0, 0, 0, 0.6));
+    -webkit-filter: blur(15px);
+    filter: blur(15px);
+    z-index: 1;
+    -webkit-transition: all .5s ease;
+    transition: all .5s ease;
+  }
+  .item .card .description {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    padding: .05rem;
+    display: block;
+    color: #fff;
+    opacity: 0;
+    -webkit-transition: all .5s ease;
+    transition: all .5s ease;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .item .card .options {
+    font-size: .12rem;
+    position: absolute;
+    right: .05rem;
+    bottom: .05rem;
+    padding: .05rem;
+    display: block;
+    text-align: right;
+    -webkit-transition: all .5s ease;
+    transition: all .5s ease;
+    opacity: 0;
+    z-index: 3;
+  }
+  .item .card .options .btn{
+    background-color: #fff;
+    color: #26a69a;
+    opacity: 0.7;
+    padding: 0px 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    i {
+      margin-right: 2px;
+    }
+  }
+
+  .item:hover .mark {
+    opacity: 1;
+  }
+  .item:hover .description {
+    opacity: 1;
+  }
+  .item:hover .options {
+    opacity: 1;
   }
 }

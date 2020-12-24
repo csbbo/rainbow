@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Main from './views/Main'
 import Photo from './views/Photo'
+import PhotoDetail from './views/PhotoDetail'
 import {CheckAuthAPI} from "@/common/api";
 
 Vue.use(Router)
@@ -11,6 +12,7 @@ const router = new Router({
     routes: [
         {path: '/', name: 'main', component: Main},
         {path: '/photo', name: 'photo', component: Photo},
+        {path: '/detail', name: 'detail', component: PhotoDetail},
         // {path: '/navmenu', redirect: "/photo", component: NavMenu, children: [
         //         {path: '/photo', name: 'photo', component: Photo},
         //     ]
