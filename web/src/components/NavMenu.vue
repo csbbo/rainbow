@@ -13,7 +13,7 @@
     <nav class="nav-menu">
       <div class="nav-wrapper">
         <ul class="left hide-on-med-and-down">
-          <li class="nav-logo" @click="backToHomePage">七色彩云</li>
+          <li class="nav-logo" @click="backToHomePage">Rainbow</li>
           <li>
             <input class="global-search" type="text" placeholder="搜索"/>
           </li>
