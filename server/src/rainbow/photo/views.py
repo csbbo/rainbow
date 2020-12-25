@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 class PhotoAPI(APIView):
-    @check(permission='__all__', serializer=UUIDOnlySerializer)
+    @check(login_required=False, serializer=UUIDOnlySerializer)
     def get(self, request):
         id = request.data['id']
         try:

@@ -51,6 +51,7 @@
           </ul>
         </div>
 
+        <!--        hidden info-->
         <div class="fixed-action-btn" style="bottom: 45px; left: 24px; visibility:hidden">
             <a id="menu" class="btn btn-floating cyan"><i class="material-icons">menu</i></a>
         </div>

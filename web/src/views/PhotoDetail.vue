@@ -1,5 +1,5 @@
 <template>
-    <div class="PhotoDetail">
+    <div id="PhotoDetail">
         <nav-menu></nav-menu>
 
         <div class="show-img">
@@ -17,6 +17,7 @@
 </template>
 
 <script>
+    import '@/less/photodetail.less'
     import NavMenu from "../components/NavMenu";
     import {GetPhotoAPI} from "@/common/api"
     export default {
