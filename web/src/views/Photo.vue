@@ -19,7 +19,7 @@
                     </div>
                     <div class="options">
                         <a class="waves-effect waves-light btn"><i class="material-icons left">favorite_border</i>点赞</a>
-                        <a class="waves-effect waves-light btn"><i class="material-icons left">cloud_queue</i>下载</a>
+                        <a :href="photo.img_path" class="waves-effect waves-light btn"><i class="material-icons left">cloud_queue</i>下载</a>
                     </div>
                 </div>
             </div>
