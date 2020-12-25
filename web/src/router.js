@@ -15,7 +15,7 @@ const router = new Router({
         // {path: '/', name: 'main', component: Main},
         {path:'/',redirect:'/photo'},
         {path: '/photo', name: 'photo', component: Photo},
-        {path: '/detail', name: 'detail', component: PhotoDetail},
+        {path: '/detail/:id', name: 'detail', component: PhotoDetail},
         {path: '/about', name: 'about', component: About},
         {path: '/404', name: '404', component: NotFound},
         {path:'*',redirect:'/404'},

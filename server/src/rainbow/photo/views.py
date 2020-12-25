@@ -30,6 +30,7 @@ class PhotoAPI(APIView):
             'watch_num': photo.watch_num,
             'thumb_num': photo.thumb_num,
             'download_num': photo.download_num,
+            'img_path': '/_/photo/' + str(id),
 
             'create_time': photo.create_time,
             'update_time': photo.update_time,

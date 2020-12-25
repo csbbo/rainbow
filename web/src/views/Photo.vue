@@ -12,8 +12,8 @@
         <div class="show">
             <div class="item" v-for="(photo, index) in photos" :key="index">
                 <div class="card">
-                    <a class="mark" href="/detail"></a>
-                    <img class="" :src="photo.img_path">
+                    <a class="mark" @click="gotoDetail(photo.id)"></a>
+                    <img :src="photo.img_path">
                     <div class="description">
 <!--                        <p style="font-size: 5px">photo:{{photo.id}}</p>-->
                     </div>
@@ -170,6 +170,9 @@
                     query: queryDict,
                 })
                 location.reload()
+            },
+            gotoDetail(id) {
+                this.$router.push({name: 'detail', params: {id: id}})
             }
         }
     }
