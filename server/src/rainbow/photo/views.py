@@ -50,8 +50,13 @@ class PhotoListAPI(APIView):
     def get(self, request):
         data = request.data
         category = data.getlist('category', [])
+        search = data.get('search')
+
         if len(category) > 0:
             photos = Photo.objects.filter(reduce(or_, (Q(category__contains=[cat, ]) for cat in category)))
+        elif search:
+            photos = Photo.objects.filter(
+                Q(name__icontains=search) | Q(description__icontains=search) | Q(copyright__icontains=search))
         else:
             photos = Photo.objects.all()
 
