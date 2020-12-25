@@ -78,6 +78,7 @@
             page: {
                 hidden: true,
                 label: null,
+                search: '',
                 curPage: 1,
                 selected: {
                     selected: 12,
@@ -119,6 +120,11 @@
                 if (this.page.label != null) {
                     data['category'] = this.page.label
                 }
+
+                if (this.page.search != null) {
+                    data['search'] = this.page.search
+                }
+
                 GetPhotoListAPI(data).then(resp => {
                     this.photos = resp.data.items
                     this.total = resp.data.total
@@ -139,8 +145,8 @@
                 if (this.$route.query.label != null) {
                     this.page.label = this.$route.query.label
                 }
-                if (this.$route.query.hidden === 'false') {
-                    this.page.hidden = false
+                if (this.$route.query.search != null) {
+                    this.page.search = this.$route.query.search
                 }
             },
             updateQuery() {
@@ -159,7 +165,7 @@
                 if (this.page.label!=null) {
                     queryDict['label'] = this.page.label
                 }
-                this.$router.push({
+                this.$router.replace({
                     path: '/photo',
                     query: queryDict,
                 })

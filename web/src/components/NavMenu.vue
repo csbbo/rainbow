@@ -15,7 +15,7 @@
         <ul class="left hide-on-med-and-down">
           <li class="nav-logo" @click="backToHomePage">Rainbow</li>
           <li>
-            <input class="global-search" type="text" placeholder="搜索"/>
+            <input v-model="page.search" @keyup.enter="search()" class="global-search" type="text" placeholder="搜索"/>
           </li>
           <li class="search-icons"><i class="material-icons">search</i></li>
           <li class="func-item-first"><a href="/photo">图片</a></li>
@@ -49,6 +49,9 @@ import "@/less/navmenu.less"
 export default {
   name: "NavMenu",
   data: () => ({
+    page: {
+      search: '',
+    },
     username: '',
     imgPath: ''
   }),
@@ -59,6 +62,13 @@ export default {
     // this.getuser()
   },
   methods: {
+    search() {
+      if (this.page.search !== '') {
+        delete this.$route.query.label
+        this.$router.replace({ query: { ...this.$route.query, search: this.page.search } })
+        location.reload()
+      }
+    },
     backToHomePage() {
       this.$router.push("/")
     },
