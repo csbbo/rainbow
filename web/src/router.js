@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Photo from './views/Photo'
 import PhotoDetail from './views/PhotoDetail'
 import About from './views/About'
+import NotFound from './views/404'
 import {CheckAuthAPI} from "@/common/api";
 
 Vue.use(Router)
@@ -16,6 +17,8 @@ const router = new Router({
         {path: '/photo', name: 'photo', component: Photo},
         {path: '/detail', name: 'detail', component: PhotoDetail},
         {path: '/about', name: 'about', component: About},
+        {path: '/404', name: '404', component: NotFound},
+        {path:'*',redirect:'/404'},
         // {path: '/navmenu', redirect: "/photo", component: NavMenu, children: [
         //         {path: '/photo', name: 'photo', component: Photo},
         //     ]
@@ -32,7 +35,6 @@ const router = new Router({
         //         {path: '/read', name: 'read', component: Read},
         //     ]
         // },
-        // {path:'*',redirect:'/notfound'},
     ]
 })
 
