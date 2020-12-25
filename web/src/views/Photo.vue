@@ -1,9 +1,11 @@
 <template>
     <div id="Photo">
         <nav-menu></nav-menu>
-        <div v-if="page.showFilter" class="filter">
+        <div v-if="!page.hidden" class="filter">
             <div class="categorys">
-                <span v-for="(cat, index) in category" :key="index" class="category">{{cat}}</span>
+                <span class="name">标签: </span>
+                <span class="category" v-bind:class="{labelpick: page.label==null}" @click="page.label=null;updateQuery()">全部</span>
+                <span v-for="(cat, index) in category" :key="index" class="category" v-bind:class="{labelpick: page.label===cat}" @click="page.label=cat;updateQuery()">{{cat}}</span>
             </div>
         </div>
 
@@ -42,8 +44,8 @@
             <i class="large material-icons">mode_edit</i>
           </a>
           <ul>
-            <li @click="page.showFilter = !page.showFilter"><a class="btn-floating red"><i class="material-icons">{{page.showFilter ? 'unfold_less' : 'unfold_more' }}</i></a></li>
-            <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
+            <li @click="page.hidden = !page.hidden"><a class="btn-floating red"><i class="material-icons">{{page.hidden ?  'unfold_more':'unfold_less' }}</i></a></li>
+            <li><a class="btn-floating yellow darken-1"><i class="material-icons">cloud_upload</i></a></li>
             <li onclick="$('.tap-target').tapTarget('open')"><a class="btn-floating green"><i class="material-icons">info</i></a></li>
             <li><a class="btn-floating blue" href="#top"><i class="material-icons">expand_less</i></a></li>
           </ul>
@@ -74,12 +76,13 @@
         },
         data: () => ({
             page: {
-                showFilter: false,
+                hidden: true,
+                label: null,
                 curPage: 1,
                 selected: {
                     selected: 12,
                     options: [
-                        {'text': '6 条/页', value: 6},
+                        {'text': '06 条/页', value: 6},
                         {'text': '12 条/页', value: 12},
                         {'text': '24 条/页', value: 24},
                         {'text': '48 条/页', value: 48},
@@ -104,14 +107,19 @@
         },
         created() {
             this.getQueryAndInitParam()
-            this.getPhoto()
             this.getCategory()
+            this.getPhoto()
         },
         methods: {
             getPhoto() {
                 const count = this.page.selected.selected
                 const offset = (this.page.curPage-1) * count
-                GetPhotoListAPI({'count': count, 'offset': offset}).then(resp => {
+                let data = {'count': count, 'offset': offset}
+
+                if (this.page.label != null) {
+                    data['category'] = this.page.label
+                }
+                GetPhotoListAPI(data).then(resp => {
                     this.photos = resp.data.items
                     this.total = resp.data.total
                 })
@@ -128,6 +136,12 @@
                 if (this.$route.query.count != null) {
                     this.page.selected.selected = this.$route.query.count
                 }
+                if (this.$route.query.label != null) {
+                    this.page.label = this.$route.query.label
+                }
+                if (this.$route.query.hidden === 'false') {
+                    this.page.hidden = false
+                }
             },
             updateQuery() {
                 let page = this.page.curPage
@@ -140,9 +154,14 @@
                 }
 
                 const count = this.page.selected.selected
+                let queryDict = {'page': page, count: count}
+
+                if (this.page.label!=null) {
+                    queryDict['label'] = this.page.label
+                }
                 this.$router.push({
                     path: '/photo',
-                    query: {'page': page, count: count},
+                    query: queryDict,
                 })
                 location.reload()
             }
