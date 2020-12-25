@@ -65,7 +65,7 @@ export default {
     search() {
       if (this.page.search !== '') {
         delete this.$route.query.label
-        this.$router.replace({ query: { ...this.$route.query, search: this.page.search } })
+        this.$router.replace({path: '/photo', query: { ...this.$route.query, search: this.page.search } })
         location.reload()
       }
     },
