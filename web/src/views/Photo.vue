@@ -97,12 +97,9 @@
             category: [],
         }),
         mounted() {
-            // eslint-disable-next-line no-undef
-            $(document).ready(function(){
-                // eslint-disable-next-line no-undef
-                $('.fixed-action-btn').floatingActionButton();
-                // eslint-disable-next-line no-undef
-                $('.tap-target').tapTarget({
+            window.jQuery(document).ready(function(){
+                window.jQuery('.fixed-action-btn').floatingActionButton();
+                window.jQuery('.tap-target').tapTarget({
                     direction: 'top',
                 });
             });
