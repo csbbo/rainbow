@@ -36,13 +36,13 @@ def get_image_info(url):
 def sync_anime_image():
     url = 'https://infinity-api.infinitynewtab.com/get-wallpaper?source=Infinity'
     images = get_image_info(url)
-    photos = Photo.objects.filter(category__contains=[PhotoTypeEnum.infinity, PhotoTypeEnum.anime])
+    photos = Photo.objects.filter(category__contains=[PhotoTypeEnum.anime, ])
     for photo in photos:
         delete_file(str(photo.id), path=settings.PHOTOS_PATH)
         photo.delete()
 
     for img in images:
-        photo = Photo.objects.create(category=[PhotoTypeEnum.infinity, PhotoTypeEnum.anime])
+        photo = Photo.objects.create(category=[PhotoTypeEnum.anime, ])
         try:
             save_remote_image(img['url'], str(photo.id))
         except Exception as e:
@@ -53,13 +53,13 @@ def sync_anime_image():
 def sync_landscape_image():
     url = 'https://infinity-api.infinitynewtab.com/get-wallpaper?source=InfinityLandscape'
     images = get_image_info(url)
-    photos = Photo.objects.filter(category__contains=[PhotoTypeEnum.infinity, PhotoTypeEnum.landscape])
+    photos = Photo.objects.filter(category__contains=[PhotoTypeEnum.landscape, ])
     for photo in photos:
         delete_file(str(photo.id), path=settings.PHOTOS_PATH)
         photo.delete()
 
     for img in images:
-        photo = Photo.objects.create(category=[PhotoTypeEnum.infinity, PhotoTypeEnum.landscape])
+        photo = Photo.objects.create(category=[PhotoTypeEnum.landscape, ])
         try:
             save_remote_image(img['url'], str(photo.id))
         except Exception as e:

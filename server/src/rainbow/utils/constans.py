@@ -7,10 +7,9 @@ class Choices:
 
 
 class PhotoTypeEnum(Choices):
-    bing = "bing"
-    infinity = "infinity"
-    anime = "anime"
-    landscape = 'landscape'
+    bing = "必应"
+    anime = "动漫"
+    landscape = '风景'
 
 
 class UserTypeEnum(Choices):
