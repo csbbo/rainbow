@@ -7,11 +7,19 @@
         </div>
 
         <div class="description">
-            description
+            <div class="createday">2021-01-01</div>
+            <div class="name"></div>
+            <div class="description">雪中的蓝山雀和大山雀，法国北孚日地区自然公园 (© Michel Rauch/Minden Pictures)</div>
+            <div class="copyright"></div>
         </div>
 
         <div class="function">
-            function
+            <a class="waves-effect waves-light btn">点赞</a>
+            <a class="waves-effect waves-light btn">下载</a>
+        </div>
+
+        <div class="info">
+            info
         </div>
     </div>
 </template>

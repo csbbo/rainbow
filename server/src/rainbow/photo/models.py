@@ -6,9 +6,9 @@ from django.utils import timezone
 
 class Photo(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=100, null=True)
+    name = models.TextField(null=True)
     description = models.TextField(null=True)
-    copyright = models.CharField(max_length=100, null=True)
+    copyright = models.TextField(null=True)
     category = ArrayField(models.CharField(max_length=20), default=list)
 
     watch_num = models.IntegerField(default=0)
