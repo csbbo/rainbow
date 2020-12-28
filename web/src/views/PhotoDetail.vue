@@ -19,7 +19,7 @@
         </div>
 
         <div class="info">
-            info
+            <div class="download">下载数：</div>
         </div>
     </div>
 </template>
