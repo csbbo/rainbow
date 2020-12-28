@@ -7,20 +7,19 @@
         </div>
 
         <div class="description">
-            <div class="createday">2021-01-01</div>
-            <div class="name"></div>
-            <div class="description">雪中的蓝山雀和大山雀，法国北孚日地区自然公园 (© Michel Rauch/Minden Pictures)</div>
-            <div class="copyright"></div>
+            <div v-if="photo.create_time" class="createday">{{photo.create_time}}</div>
+            <div v-if="photo.name" class="name">{{photo.name}}</div>
+            <div v-if="photo.description" class="desc">{{photo.description}}</div>
+            <div v-if="photo.copyright" class="copyright">{{photo.copyright}}</div>
         </div>
 
-        <div class="function">
-            <a class="waves-effect waves-light btn">点赞</a>
-            <a class="waves-effect waves-light btn">下载</a>
-        </div>
-
-        <div class="info">
-            <div class="download">下载数：</div>
-        </div>
+<!--        <div class="function">-->
+<!--            <div class="download">下载：{{photo.download_num}}</div>-->
+<!--            <div class="download">点赞：{{photo.thumb_num}}</div>-->
+<!--            <div class="download">查看：{{photo.watch_num}}</div>-->
+<!--            <a class="waves-effect waves-light btn">点赞</a>-->
+<!--            <a class="waves-effect waves-light btn">下载</a>-->
+<!--        </div>-->
     </div>
 </template>
 
