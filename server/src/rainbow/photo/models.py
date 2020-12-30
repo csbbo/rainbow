@@ -3,6 +3,8 @@ from django.db import models
 from django.contrib.postgres.fields import ArrayField
 from django.utils import timezone
 
+from account.models import User
+
 
 class Photo(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -21,6 +23,7 @@ class Photo(models.Model):
 
     create_time = models.DateTimeField(default=timezone.now)
     update_time = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = 'Photo'
