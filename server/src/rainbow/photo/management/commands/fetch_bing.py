@@ -1,5 +1,6 @@
 import datetime
 import logging
+import os
 
 import pytz
 import requests
@@ -9,9 +10,24 @@ from django.core.management.base import BaseCommand
 
 from photo.models import Photo
 from utils.constans import Choices, PhotoTypeEnum
-from utils.shortcuts import save_remote_image
+from utils.shortcuts import rand_str
 
 logger = logging.getLogger(__name__)
+
+def save_remote_image(url, name, path=settings.PHOTOS_PATH):
+    """
+    :param url: 图片网络地址
+    :param img_name: 图片名
+    :param path: 保存路径
+    """
+    if not os.path.exists(path):
+        os.makedirs(path)
+    save_path = os.path.join(path, name)
+
+    with requests.get(url, timeout=30, stream=True) as r:
+        with open(save_path, 'wb') as f:
+            for d in r.iter_content(128):
+                f.write(d)
 
 
 class SubCommandTypeEnum(Choices):
@@ -49,12 +65,14 @@ def sync_remote_image():
         create_time = pytz.timezone(settings.TIME_ZONE).localize(create_time)
         if not Photo.objects.filter(create_time=create_time, category__contains=[PhotoTypeEnum.bing, ]).exists():
             name = img['copyright'].split('(')[0].split('，')[0]
+            save_name = rand_str(32)
             photo = Photo.objects.create(name=name,
+                                         save_name=save_name,
                                          copyright=img['copyright'],
                                          category=[PhotoTypeEnum.bing],
                                          create_time=create_time)
             try:
-                save_remote_image('https://bing.com' + img['url'], str(photo.id))
+                save_remote_image('https://bing.com' + img['url'], name=save_name)
             except Exception as e:
                 photo.delete()
                 logger.error("save image fail with error: " + str(e))
