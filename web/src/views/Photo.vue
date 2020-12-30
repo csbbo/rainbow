@@ -26,7 +26,7 @@
         </div>
 
         <div class="photo-footer">
-            <div class="pagination">
+            <div v-if="total" class="pagination">
                 <a @click="page.curPage=page.curPage-1<1?1:page.curPage-1;updateQuery()" class="waves-effect waves-light btn">上一页</a>
                 <span>{{page.curPage}}/{{Math.ceil(total/page.selected.selected)}}</span>
                   <select @change="updateQuery()" v-model="page.selected.selected" style="display: inline-block; width: 85px" class="browser-default">

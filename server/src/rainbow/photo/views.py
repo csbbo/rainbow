@@ -27,9 +27,9 @@ class PhotoAPI(APIView):
             'copyright': photo.copyright,
             'category': photo.category,
 
-            'watch_num': photo.watch_num,
-            'thumb_num': photo.thumb_num,
-            'download_num': photo.download_num,
+            'watch_count': photo.watch_count,
+            'thumb_count': photo.thumb_count,
+            'download_count': photo.download_count,
             'img_path': '/_/photo/' + str(id),
 
             'create_time': photo.create_time,
