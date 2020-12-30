@@ -131,3 +131,17 @@ class ThumbPhotoAPI(APIView):
 
         cache.set(id, client_ip, timeout=60*60*24)
         return self.success()
+
+
+class WatchPhotoAPI(APIView):
+    @check(login_required=False, serializer=UUIDOnlySerializer)
+    def post(self, request):
+        id = request.data['id']
+        with transaction.atomic():
+            try:
+                photo = Photo.objects.select_for_update().get(id=id)
+            except Photo.DoesNotExist:
+                return self.error('图片不存在!')
+            photo.watch_count += 1
+            photo.save()
+        return self.success()

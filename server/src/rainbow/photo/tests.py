@@ -113,3 +113,13 @@ class ThumbPhotoAPITest(APITestCase):
         data = create_test_data(1)
         resp = self.post(self.url, {'id': data[0]['id']})
         self.assertSuccess(resp)
+
+
+class WatchPhotoAPITest(APITestCase):
+    def setUp(self):
+        self.url = self.get_url('WatchPhotoAPI')
+
+    def test_add_watch(self):
+        data = create_test_data(1)
+        resp = self.post(self.url, {'id': data[0]['id']})
+        self.assertSuccess(resp)
