@@ -31,15 +31,12 @@ class PhotoAPI(APIView):
             'copyright': photo.copyright,
             'category': photo.category,
 
-            'save_name': photo.save_name,
-            'upload_name': photo.upload_name,
-
+            'img_path': '/_/photo/' + photo.save_name,
             'watch_count': photo.watch_count,
             'thumb_count': photo.thumb_count,
             'download_count': photo.download_count,
 
             'create_time': photo.create_time,
-            'update_time': photo.update_time,
         }
         return self.success(data)
 
