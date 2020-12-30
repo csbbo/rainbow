@@ -42,7 +42,10 @@ class PhotoAPI(APIView):
 
     @check(permission='__all__', serializer=CreatePhotoSerializer)
     def post(self, request):
+        user = request.user
         data = request.data
+
+        data['user'] = user
         photo = Photo.objects.create(**data)
         return self.success({'id': str(photo.id)})
 
