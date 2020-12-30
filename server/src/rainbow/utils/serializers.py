@@ -1,3 +1,4 @@
+from django.forms import forms
 from rest_framework import serializers
 
 
@@ -13,3 +14,7 @@ class UUIDListSerializer(serializers.Serializer):
     只需要传递多个 ID
     """
     ids = serializers.ListField(child=serializers.UUIDField(), allow_empty=False)
+
+
+class UploadFileForm(forms.Form):
+    file = forms.FileField()

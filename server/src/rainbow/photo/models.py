@@ -10,8 +10,9 @@ class Photo(models.Model):
     description = models.TextField(null=True)
 
     copyright = models.TextField(null=True)
-    category = ArrayField(models.CharField(max_length=20), default=list)
+    category = ArrayField(models.CharField(max_length=32), default=list)
 
+    save_name = models.CharField(max_length=32)
     upload_name = models.TextField(null=True)
 
     watch_count = models.IntegerField(default=0)

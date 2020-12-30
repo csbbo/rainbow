@@ -3,6 +3,7 @@ import functools
 import json
 import logging
 import typing
+from urllib.parse import quote
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse, QueryDict
@@ -35,6 +36,7 @@ class APIError(Exception):
 
 class APIView(View):
     response_class = Response
+    request_header = (ContentType.json_request, ContentType.url_encoded_request)
 
     def _get_request_data(self):
         if self.request.method != "GET":
@@ -86,6 +88,13 @@ class APIView(View):
             msg = f"{error}"
         return self.error(err=f"invalid-{key}", msg=msg)
 
+    def download_photo(self, download_name, photo_id):
+        resp = self.success()
+        resp['X-Accel-Redirect'] = f'/_/photo/{photo_id}'
+        resp['Content-Disposition'] = f"inline; filename*=UTF-8''{quote(download_name)}"
+        resp['Content-Type'] = 'application/octet-stream'
+        return resp
+
     def paginate_data(self, query_set, object_serializer=None, force=False, context=None):
         need_paginate = self.request.GET.get("count", None)
         if need_paginate is None:
@@ -119,7 +128,8 @@ class APIView(View):
         return data
 
     def dispatch(self, request, *args, **kwargs):
-        request.data = self._get_request_data()
+        if self.request_header:
+            request.data = self._get_request_data()
 
         try:
             return super(APIView, self).dispatch(request, *args, **kwargs)
