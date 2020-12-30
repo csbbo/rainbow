@@ -6,6 +6,7 @@ from utils.constans import PhotoTypeEnum
 from utils.shortcuts import rand_str
 from utils.tests import APITestCase
 
+
 def create_test_data(data_count=10):
     data_list = []
     for i in range(data_count):
@@ -101,4 +102,14 @@ class UploadAndDownloadPhotoAPITest(APITestCase):
 
         # 下载
         resp = self.post(self.download_url, data={'id': id})
+        self.assertSuccess(resp)
+
+
+class ThumbPhotoAPITest(APITestCase):
+    def setUp(self):
+        self.url = self.get_url('ThumbPhotoAPI')
+
+    def test_add_thumb(self):
+        data = create_test_data(1)
+        resp = self.post(self.url, {'id': data[0]['id']})
         self.assertSuccess(resp)

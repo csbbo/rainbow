@@ -5,5 +5,7 @@ psycopg2==2.8.6
 django-apscheduler==0.5.1
 requests==2.25.0
 daphne==3.0.1
+django-redis==4.12.1
+
 # numpy==1.19.4
 # opencv-python==4.4.0.46

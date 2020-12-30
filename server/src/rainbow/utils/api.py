@@ -88,9 +88,9 @@ class APIView(View):
             msg = f"{error}"
         return self.error(err=f"invalid-{key}", msg=msg)
 
-    def download_photo(self, download_name, photo_id):
+    def download_photo(self, download_name, save_name):
         resp = self.success()
-        resp['X-Accel-Redirect'] = f'/_/photo/{photo_id}'
+        resp['X-Accel-Redirect'] = f'/_/photo/{save_name}'
         resp['Content-Disposition'] = f"inline; filename*=UTF-8''{quote(download_name)}"
         resp['Content-Type'] = 'application/octet-stream'
         return resp

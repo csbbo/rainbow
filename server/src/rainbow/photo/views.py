@@ -3,6 +3,8 @@ from functools import reduce
 from operator import or_
 
 from django.conf import settings
+from django.core.cache import cache
+from django.db import transaction
 from django.db.models import Q
 
 from photo.models import Photo
@@ -100,6 +102,32 @@ class UploadPhotoAPI(APIView):
 class DownloadPhotoAPI(APIView):
     @check(login_required=False, serializer=UUIDOnlySerializer)
     def post(self, request):
-        photo_id = request.data['id']
+        id = request.data['id']
+        try:
+            photo = Photo.objects.get(id=id)
+        except Photo.DoesNotExist:
+            return self.error('图片不存在!')
+
         download_name = f"rainbow_{datetime_pretty(fmt='%Y%m%d')}_{rand_str(length=8)}.jpg"
-        return self.download_photo(download_name=download_name, photo_id=photo_id)
+        return self.download_photo(download_name=download_name, save_name=photo.save_name)
+
+
+class ThumbPhotoAPI(APIView):
+    @check(login_required=False, serializer=UUIDOnlySerializer)
+    def post(self, request):
+        id = request.data['id']
+        client_ip = request.META['REMOTE_ADDR']
+        cache_ip = cache.get(id)
+        if cache_ip and cache_ip == client_ip:
+            return self.error()
+
+        with transaction.atomic():
+            try:
+                photo = Photo.objects.select_for_update().get(id=id)
+            except Photo.DoesNotExist:
+                return self.error('图片不存在!')
+            photo.thumb_count += 1
+            photo.save()
+
+        cache.set(id, client_ip, timeout=60*60*24)
+        return self.success()
