@@ -13,7 +13,7 @@ def create_test_data(data_count=10):
         data = {
             'name': f'rainbow{i}',
             'description': f'the photo {i} description',
-            'copyright': '©rainbow',
+            'copyright': 'rainbow',
             'category': PhotoTypeEnum.choices()[:random.randint(1, len(PhotoTypeEnum.choices()))],
 
             'save_name': rand_str(32),

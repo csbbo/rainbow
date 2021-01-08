@@ -3,7 +3,7 @@ from rest_framework import serializers
 from photo.models import Photo
 
 
-class PhotoListSerializer(serializers.ModelSerializer):
+class PhotoSerializer(serializers.ModelSerializer):
     img_path = serializers.SerializerMethodField()
 
     def get_img_path(self, obj):

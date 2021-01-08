@@ -8,7 +8,7 @@ from django.db import transaction
 from django.db.models import Q
 
 from photo.models import Photo
-from photo.serializers import PhotoListSerializer, CreatePhotoSerializer
+from photo.serializers import PhotoSerializer, CreatePhotoSerializer
 from utils.api import APIView, check
 from utils.serializers import UUIDOnlySerializer, UUIDListSerializer, UploadFileForm
 from utils.shortcuts import rand_str, datetime_pretty, save_file
@@ -24,20 +24,7 @@ class PhotoAPI(APIView):
             photo = Photo.objects.get(id=id)
         except Photo.DoesNotExist:
             return self.error('photo not exists')
-        data = {
-            'id': id,
-            'name': photo.name,
-            'description': photo.description,
-            'copyright': photo.copyright,
-            'category': photo.category,
-
-            'img_path': '/_/photo/' + photo.save_name,
-            'watch_count': photo.watch_count,
-            'thumb_count': photo.thumb_count,
-            'download_count': photo.download_count,
-
-            'create_time': photo.create_time,
-        }
+        data = PhotoSerializer(photo).data
         return self.success(data)
 
     @check(permission='__all__', serializer=CreatePhotoSerializer)
@@ -74,7 +61,7 @@ class PhotoListAPI(APIView):
         else:
             photos = Photo.objects.all()
 
-        data = self.paginate_data(photos, object_serializer=PhotoListSerializer, force=True)
+        data = self.paginate_data(photos, object_serializer=PhotoSerializer, force=True)
         return self.success(data)
 
 
