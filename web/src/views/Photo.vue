@@ -161,13 +161,13 @@
                 let queryDict = {'page': page, count: count}
 
                 if (this.page.label!=null) {
-                    queryDict['label'] = this.page.label
+                    queryDict = {'label': this.page.label}
                 }
                 this.$router.replace({
                     path: '/photo',
                     query: queryDict,
                 })
-                location.reload()
+                this.getPhoto()
             },
             gotoDetail(id) {
                 this.$router.push({name: 'detail', params: {id: id}})

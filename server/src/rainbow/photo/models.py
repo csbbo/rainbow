@@ -10,10 +10,11 @@ class Photo(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.TextField(null=True)
     description = models.TextField(null=True)
-
+    location = models.TextField(null=True)
     copyright = models.TextField(null=True)
-    category = ArrayField(models.CharField(max_length=32), default=list)
 
+    category = ArrayField(models.CharField(max_length=32), default=list)
+    ppi = models.CharField(max_length=16)
     save_name = models.CharField(max_length=32)
     upload_name = models.TextField(null=True)
 
