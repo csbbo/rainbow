@@ -1,10 +1,9 @@
+import time
 import datetime
 import logging
-import os
 
 import pytz
 import requests
-from apscheduler.schedulers.blocking import BlockingScheduler
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from bs4 import BeautifulSoup
@@ -12,7 +11,7 @@ from bs4 import BeautifulSoup
 from photo.management.commands.fetch_bing import save_remote_image
 from photo.models import Photo
 from photo.utils import get_image_dpi
-from utils.constans import Choices, PhotoTypeEnum
+from utils.constans import PhotoTypeEnum
 from utils.shortcuts import rand_str
 
 logger = logging.getLogger(__name__)
@@ -27,6 +26,7 @@ def get_detail_page_url():
     detail_pages_url = []
     page = 1
     while True:
+        logger.error(f'fetch page {page}')
         url = f'{host}/?p={page}'
         r = requests.get(url, headers=headers)
         bf = BeautifulSoup(r.text, 'lxml')
@@ -37,13 +37,15 @@ def get_detail_page_url():
         if len(marks) < 12 or page > 200:
             break
         page += 1
+        time.sleep(1)
     return list(set(detail_pages_url))
 
 
 def get_photo_data():
     page_urls = get_detail_page_url()
     data_list = []
-    for page_url in page_urls:
+    for i, page_url in enumerate(page_urls):
+        logger.error(f'fetch image {i+1}')
         r = requests.get(page_url, headers=headers)
         bf = BeautifulSoup(r.text, 'lxml')
         photo_name = bf.find('a', {'class': 'download'})['href'].split('/')[-1].split('?')[0]
@@ -52,7 +54,8 @@ def get_photo_data():
             'photo_time': bf.find('p', {'class': 'calendari'}).find('em', {'class': 't'}).get_text(),
             'photo_path': f'http://h2.ioliu.cn/bing/{photo_name}_1920x1080.jpg',
         })
-        datetime.time.sleep(1)
+        time.sleep(1)
+    logger.error('GET ALL DATA DONE!')
     return data_list
 
 
@@ -66,10 +69,10 @@ def sync_remote_image():
             save_name = rand_str(32)
             dpi = get_image_dpi(save_name)
             try:
-                save_remote_image('https://bing.com' + img['photo_path'], name=save_name)
+                save_remote_image(img['photo_path'], name=save_name)
                 Photo.objects.create(name=name,
                                      save_name=save_name,
-                                     dpi = dpi,
+                                     dpi=dpi,
                                      category=[PhotoTypeEnum.bing],
                                      create_time=create_time)
             except Exception as e:

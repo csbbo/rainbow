@@ -13,3 +13,6 @@ RUN apt-get update \
 WORKDIR /web
 
 CMD bash /web/run.sh
+
+
+# apt install -y libglib2.0-0 libsm6 libxext6 libxrender-dev for opencv
