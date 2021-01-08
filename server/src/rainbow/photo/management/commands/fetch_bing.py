@@ -9,10 +9,17 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 
 from photo.models import Photo
+from photo.utils import get_image_dpi
 from utils.constans import Choices, PhotoTypeEnum
 from utils.shortcuts import rand_str
 
 logger = logging.getLogger(__name__)
+
+
+class SubCommandTypeEnum(Choices):
+    fetch_now = "fetch_now"
+    crontab = "crontab"
+
 
 def save_remote_image(url, name, path=settings.PHOTOS_PATH):
     """
@@ -28,11 +35,6 @@ def save_remote_image(url, name, path=settings.PHOTOS_PATH):
         with open(save_path, 'wb') as f:
             for d in r.iter_content(128):
                 f.write(d)
-
-
-class SubCommandTypeEnum(Choices):
-    fetch_now = "fetch_now"
-    crontab = "crontab"
 
 
 def get_image_info(date: int = 0, nums: int = 8):
@@ -64,18 +66,24 @@ def sync_remote_image():
         create_time = datetime.datetime.strptime(img['enddate'], '%Y%m%d')
         create_time = pytz.timezone(settings.TIME_ZONE).localize(create_time)
         if not Photo.objects.filter(create_time=create_time, category__contains=[PhotoTypeEnum.bing, ]).exists():
-            name = img['copyright'].split('(')[0].split('，')[0]
+            name = img['copyright']
             save_name = rand_str(32)
-            photo = Photo.objects.create(name=name,
-                                         save_name=save_name,
-                                         copyright=img['copyright'],
-                                         category=[PhotoTypeEnum.bing],
-                                         create_time=create_time)
             try:
                 save_remote_image('https://bing.com' + img['url'], name=save_name)
+                dpi = get_image_dpi(save_name)
+                new_photo = {
+                    'name': name,
+                    # 'description': None,
+                    # 'location': 'Beijing',
+                    # 'copyright': copyright,
+                    'category': [PhotoTypeEnum.bing],
+                    'dpi': dpi,
+                    'save_name': save_name,
+                    'create_time': create_time
+                }
+                Photo.objects.create(**new_photo)
             except Exception as e:
-                photo.delete()
-                logger.error("save image fail with error: " + str(e))
+                logger.error("save image fail with error: \n" + str(e))
 
 
 class Command(BaseCommand):

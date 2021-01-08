@@ -11,6 +11,7 @@ from bs4 import BeautifulSoup
 
 from photo.management.commands.fetch_bing import save_remote_image
 from photo.models import Photo
+from photo.utils import get_image_dpi
 from utils.constans import Choices, PhotoTypeEnum
 from utils.shortcuts import rand_str
 
@@ -51,6 +52,7 @@ def get_photo_data():
             'photo_time': bf.find('p', {'class': 'calendari'}).find('em', {'class': 't'}).get_text(),
             'photo_path': f'http://h2.ioliu.cn/bing/{photo_name}_1920x1080.jpg',
         })
+        datetime.time.sleep(1)
     return data_list
 
 
@@ -60,17 +62,17 @@ def sync_remote_image():
         create_time = datetime.datetime.strptime(img['photo_time'], '%Y-%m-%d')
         create_time = pytz.timezone(settings.TIME_ZONE).localize(create_time)
         if not Photo.objects.filter(create_time=create_time, category__contains=[PhotoTypeEnum.bing, ]).exists():
-            name = img['photo_title'].split('(')[0].split('，')[0]
+            name = img['photo_title']
             save_name = rand_str(32)
-            photo = Photo.objects.create(name=name,
-                                         save_name=save_name,
-                                         copyright=img['photo_title'],
-                                         category=[PhotoTypeEnum.bing],
-                                         create_time=create_time)
+            dpi = get_image_dpi(save_name)
             try:
                 save_remote_image('https://bing.com' + img['photo_path'], name=save_name)
+                Photo.objects.create(name=name,
+                                     save_name=save_name,
+                                     dpi = dpi,
+                                     category=[PhotoTypeEnum.bing],
+                                     create_time=create_time)
             except Exception as e:
-                photo.delete()
                 logger.error("save image fail with error: " + str(e))
 
 
