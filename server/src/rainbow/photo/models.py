@@ -14,7 +14,7 @@ class Photo(models.Model):
     copyright = models.TextField(null=True)
 
     category = ArrayField(models.CharField(max_length=32), default=list)
-    ppi = models.CharField(max_length=16)
+    dpi = models.CharField(max_length=16)
     save_name = models.CharField(max_length=32)
     upload_name = models.TextField(null=True)
 
