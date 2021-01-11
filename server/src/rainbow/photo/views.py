@@ -54,10 +54,10 @@ class PhotoListAPI(APIView):
         search = data.get('search')
 
         if len(category) > 0:
-            photos = Photo.objects.filter(reduce(or_, (Q(category__contains=[cat, ]) for cat in category)))
+            photos = Photo.objects.filter(reduce(or_, (Q(category__contains=[cat, ]) for cat in category))).order_by('-create_time')
         elif search:
             photos = Photo.objects.filter(
-                Q(name__icontains=search) | Q(description__icontains=search) | Q(copyright__icontains=search))
+                Q(name__icontains=search) | Q(description__icontains=search) | Q(copyright__icontains=search)).order_by('-create_time')
         else:
             photos = Photo.objects.all()
 
