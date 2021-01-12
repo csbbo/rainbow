@@ -43,6 +43,7 @@ def get_detail_page_url():
 
 def get_photo_data():
     page_urls = get_detail_page_url()
+    time.sleep(10)
     data_list = []
     for i, page_url in enumerate(page_urls):
         logger.error(f'fetch image {i+1}')
@@ -54,6 +55,8 @@ def get_photo_data():
             'photo_time': bf.find('p', {'class': 'calendari'}).find('em', {'class': 't'}).get_text(),
             'photo_path': f'http://h2.ioliu.cn/bing/{photo_name}_1920x1080.jpg',
         })
+        if i % 500 == 0:
+            time.sleep(i/500)
         time.sleep(1)
     logger.error('GET ALL DATA DONE!')
     return data_list

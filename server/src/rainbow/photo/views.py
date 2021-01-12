@@ -88,7 +88,7 @@ class UploadPhotoAPI(APIView):
 
 class DownloadPhotoAPI(APIView):
     @check(login_required=False, serializer=UUIDOnlySerializer)
-    def post(self, request):
+    def get(self, request):
         id = request.data['id']
         try:
             photo = Photo.objects.get(id=id)
@@ -106,7 +106,7 @@ class ThumbPhotoAPI(APIView):
         client_ip = request.META['REMOTE_ADDR']
         cache_ip = cache.get(id)
         if cache_ip and cache_ip == client_ip:
-            return self.error()
+            return self.error('一天只能点赞一次!')
 
         with transaction.atomic():
             try:

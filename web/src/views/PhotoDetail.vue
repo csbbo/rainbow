@@ -1,7 +1,5 @@
 <template>
     <div id="PhotoDetail">
-        <nav-menu></nav-menu>
-
         <div class="show-img">
             <img :src="photo.img_path">
         </div>
@@ -25,7 +23,6 @@
 
 <script>
     import '@/less/photodetail.less'
-    import NavMenu from "../components/NavMenu";
     import {GetPhotoAPI} from "@/common/api"
     export default {
         name: "PhotoDetail",
@@ -36,9 +33,6 @@
 
             photo: '',
         }),
-        components: {
-            "nav-menu": NavMenu
-        },
         created() {
             this.getPhoto()
         },

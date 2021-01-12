@@ -1,5 +1,5 @@
 <template>
-<div id="NavMenu">
+<div id="Container">
     <!-- Dropdown Structure -->
     <ul id="nav-dropdown-menu" class="dropdown-content">
       <li><a href="/profile"><i class="material-icons">account_circle</i>个人信息</a></li>
@@ -14,10 +14,10 @@
       <div class="nav-wrapper">
         <ul class="left hide-on-med-and-down">
           <li class="nav-logo" @click="backToHomePage">Rainbow</li>
-          <li>
-            <input v-model="page.search" @keyup.enter="search()" class="global-search" type="text" placeholder="搜索"/>
-          </li>
-          <li class="search-icons"><i class="material-icons">search</i></li>
+<!--          <li>-->
+<!--            <input v-model="page.search" @keyup.enter="search()" class="global-search" type="text" placeholder="搜索"/>-->
+<!--          </li>-->
+<!--          <li class="search-icons"><i class="material-icons">search</i></li>-->
           <li class="func-item-first"><a href="/photo">图片</a></li>
           <li class="func-item"><a href="/about">关于</a></li>
         </ul>
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import "@/less/navmenu.less"
+import "@/less/container.less"
 // import {LogoutAPI,GetUserAPI} from "@/common/api"
 export default {
   name: "NavMenu",
@@ -62,16 +62,16 @@ export default {
     // this.getuser()
   },
   methods: {
-    search() {
-      if (this.page.search !== '') {
-        delete this.$route.query.label
-        this.$router.replace({path: '/photo', query: { ...this.$route.query, search: this.page.search } })
-        location.reload()
-      }
-    },
-    backToHomePage() {
-      this.$router.push("/")
-    },
+    // search() {
+    //   if (this.page.search !== '') {
+    //     delete this.$route.query.label
+    //     this.$router.replace({path: '/photo', query: { ...this.$route.query, search: this.page.search } })
+    //     location.reload()
+    //   }
+    // },
+    // backToHomePage() {
+    //   this.$router.push("/")
+    // },
     // logout() {
     //   LogoutAPI().then(resp => {
     //     if (resp.ret !== 0) {

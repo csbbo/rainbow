@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 // import Main from './views/Main'
+import Container from "./components/Container";
 import Photo from './views/Photo'
 import PhotoDetail from './views/PhotoDetail'
 import About from './views/About'
@@ -12,12 +13,19 @@ Vue.use(Router)
 const router = new Router({
     mode: 'history',
     routes: [
+        {path: '/container', redirect: '/photo', component: Container, children: [
+                {path: '/photo', name: 'photo', component: Photo},
+                {path: '/detail/:id', name: 'detail', component: PhotoDetail},
+                {path: '/about', name: 'about', component: About},
+                {path: '/404', name: '404', component: NotFound},
+            ]
+        },
         // {path: '/', name: 'main', component: Main},
-        {path:'/',redirect:'/photo'},
-        {path: '/photo', name: 'photo', component: Photo},
-        {path: '/detail/:id', name: 'detail', component: PhotoDetail},
-        {path: '/about', name: 'about', component: About},
-        {path: '/404', name: '404', component: NotFound},
+        // {path:'/',redirect:'/photo'},
+        // {path: '/photo', name: 'photo', component: Photo},
+        // {path: '/detail/:id', name: 'detail', component: PhotoDetail},
+        // {path: '/about', name: 'about', component: About},
+        // {path: '/404', name: '404', component: NotFound},
         {path:'*',redirect:'/404'},
         // {path: '/navmenu', redirect: "/photo", component: NavMenu, children: [
         //         {path: '/photo', name: 'photo', component: Photo},
