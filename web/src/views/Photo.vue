@@ -11,7 +11,7 @@
         <div class="show">
             <div class="item" v-for="(photo, index) in photos" :key="index">
                 <div class="card">
-                    <a class="mark" :href="'/detail/'+photo.id"></a>
+                    <router-link class="mark" :to="'/detail/'+photo.id"></router-link>
                     <img :src="photo.img_path">
                     <div class="mark-content">
                         <div class="content-item" v-if="photo.name">{{photo.name}}</div>

@@ -1,25 +1,12 @@
 <template>
 <div id="Container">
-    <!-- Dropdown Structure -->
-    <ul id="nav-dropdown-menu" class="dropdown-content">
-      <li><a href="/profile"><i class="material-icons">account_circle</i>个人信息</a></li>
-      <li><a href="/write"><i class="material-icons">free_breakfast</i>写文章</a></li>
-      <li class="divider"></li>
-      <li><a href="/"><i class="material-icons">home</i>首页</a></li>
-      <li><a href="#!"><i class="material-icons">settings</i>设置</a></li>
-<!--      <li @click="logout"><a href="#!"><i class="material-icons">exit_to_app</i>退出</a></li>-->
-    </ul>
-
     <nav class="nav-menu">
       <div class="nav-wrapper">
         <ul class="left hide-on-med-and-down">
           <li class="nav-logo" @click="backToHomePage">Rainbow</li>
-<!--          <li>-->
-<!--            <input v-model="page.search" @keyup.enter="search()" class="global-search" type="text" placeholder="搜索"/>-->
-<!--          </li>-->
-<!--          <li class="search-icons"><i class="material-icons">search</i></li>-->
-          <li class="func-item-first"><a href="/photo">图片</a></li>
-          <li class="func-item"><a href="/about">关于</a></li>
+          <li class="func-item-first"><router-link to="/photo">图片</router-link></li>
+          <li class="func-item-first"><router-link to="/upload">上传</router-link></li>
+          <li class="func-item"><router-link to="/about">关于</router-link></li>
         </ul>
 
         <ul class="right hide-on-med-and-down">
@@ -69,9 +56,9 @@ export default {
     //     location.reload()
     //   }
     // },
-    // backToHomePage() {
-    //   this.$router.push("/")
-    // },
+    backToHomePage() {
+      this.$router.push("/")
+    },
     // logout() {
     //   LogoutAPI().then(resp => {
     //     if (resp.ret !== 0) {

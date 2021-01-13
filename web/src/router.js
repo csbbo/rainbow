@@ -1,9 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import Main from './views/Main'
+import Main from './views/Main'
 import Container from "./components/Container";
+import Login from "./views/auth/Login"
+import Regist from "./views/auth/Regist"
 import Photo from './views/Photo'
 import PhotoDetail from './views/PhotoDetail'
+import UploadPhoto from './views/UploadPhoto'
 import About from './views/About'
 import NotFound from './views/404'
 import {CheckAuthAPI} from "@/common/api";
@@ -13,36 +16,19 @@ Vue.use(Router)
 const router = new Router({
     mode: 'history',
     routes: [
+        {path: '/', name: 'main', component: Main},
         {path: '/container', redirect: '/photo', component: Container, children: [
+                {path: '/login', name: 'login', component: Login},
+                {path: '/regist', name: 'regist', component: Regist},
+
                 {path: '/photo', name: 'photo', component: Photo},
                 {path: '/detail/:id', name: 'detail', component: PhotoDetail},
+                {path: '/upload', name: 'upload', component: UploadPhoto},
                 {path: '/about', name: 'about', component: About},
                 {path: '/404', name: '404', component: NotFound},
             ]
         },
-        // {path: '/', name: 'main', component: Main},
-        // {path:'/',redirect:'/photo'},
-        // {path: '/photo', name: 'photo', component: Photo},
-        // {path: '/detail/:id', name: 'detail', component: PhotoDetail},
-        // {path: '/about', name: 'about', component: About},
-        // {path: '/404', name: '404', component: NotFound},
-        {path:'*',redirect:'/404'},
-        // {path: '/navmenu', redirect: "/photo", component: NavMenu, children: [
-        //         {path: '/photo', name: 'photo', component: Photo},
-        //     ]
-        // },
-        // {path: '/devtest', name: 'devtest', component: DevTest},
-        // {path: '/notfound', name: 'notfound', component: PageNoteFound},
-        //
-        // {path: '/login', name: 'login', component: Login},
-        // {path: '/regist', name: 'regist', component: Regist},
-        // {path: '/', redirect: "/home", component: NavMenu, children: [
-        //         {path: '/home', name: 'home', component: Home},
-        //         {path: '/profile', name: 'profile', component: Profile, meta:{requireAuth: true}},
-        //         {path: '/write', name: 'write', component: Write, meta:{requireAuth: true}},
-        //         {path: '/read', name: 'read', component: Read},
-        //     ]
-        // },
+        // {path:'*',redirect:'/404'},
     ]
 })
 
