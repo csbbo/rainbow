@@ -106,7 +106,7 @@ class Command(BaseCommand):
         if sub_command == SubCommandTypeEnum.crontab:
             scheduler = BlockingScheduler(timezone=settings.TIME_ZONE)
 
-            scheduler.add_job(sync_remote_image, 'cron', day_of_week='0-6', hour=24, minute=0, second=20)
+            scheduler.add_job(sync_remote_image, 'cron', day_of_week='0-6', hour=1, minute=0, second=0)
             logger.info("Added job 'update_stocks'.")
 
             try:
