@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import TestCss from './views/TestCss'
 import Main from './views/Main'
 import Container from "./components/Container";
 import Login from "./views/auth/Login"
@@ -16,6 +17,7 @@ Vue.use(Router)
 const router = new Router({
     mode: 'history',
     routes: [
+        {path: '/test', name: 'testcss', component: TestCss},
         {path: '/', name: 'main', component: Main},
         {path: '/container', redirect: '/photo', component: Container, children: [
                 {path: '/login', name: 'login', component: Login},

@@ -13,7 +13,10 @@ while :; do
 done
 
 echo -e "\e[1;31m 3. apscheduler task \e[0m"
+python3 manage.py initial_server > /dev/resources/logs/initial_server.log 2>&1 &
+
+echo -e "\e[1;31m 4. apscheduler task \e[0m"
 python3 manage.py fetch_bing crontab > /dev/resources/logs/fetch_bing.log 2>&1 &
 
-echo -e "\e[1;31m 4. running \e[0m"
+echo -e "\e[1;31m 5. running \e[0m"
 daphne -b 0.0.0.0 -p 8002 rainbow.asgi:application

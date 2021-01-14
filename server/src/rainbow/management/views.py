@@ -9,3 +9,4 @@ class CategoryAPI(APIView):
     def get(self, request):
         category = PhotoTypeEnum.choices()
         return self.success({'category': category})
+

@@ -1,0 +1,34 @@
+<template>
+    <div id="Preload">
+
+      <div class="preloader-wrapper big active">
+        <div class="spinner-layer spinner-green-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+</template>
+
+<script>
+    export default {
+        name: "Preloader"
+    }
+</script>
+
+<style scoped>
+.preloader-wrapper {
+    position: absolute;
+	left: 50%;
+    top: 50%;
+	margin-left: -50px;
+	margin-top: -50px;
+}
+</style>

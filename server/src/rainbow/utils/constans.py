@@ -6,6 +6,12 @@ class Choices:
         return list(ret - set(exclude_field))
 
 
+class ConfigKeyEnum(Choices):
+    EMAIL_ADDR = 'EMAIL_ADDR'
+    EMAIL_SMTP_SERVER = 'EMAIL_SMTP_SERVER'
+    EMAIL_PORT = 'EMAIL_PORT'
+
+
 class PhotoTypeEnum(Choices):
     bing = "必应"
     anime = "动漫"

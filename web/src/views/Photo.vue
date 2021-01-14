@@ -1,6 +1,6 @@
 <template>
     <div id="Photo">
-        <div class="filter">
+        <div v-if="category.length > 0" class="filter">
             <div class="categorys">
                 <span class="name">标签: </span>
                 <span class="category" v-bind:class="{labelpick: page.label==null}" @click="page.label=null;getPhoto()">全部</span>
@@ -29,9 +29,11 @@
             </div>
         </div>
 
-        <footer-page :total="total"></footer-page>
+        <footer-page v-if="photos"></footer-page>
+        <preloader v-else></preloader>
 
-        <!--        hover menu-->
+        <!-------------------------------分割线---------------------------------->
+        <!--hover menu-->
         <div class="fixed-action-btn">
           <a class="btn-floating btn-large red">
             <i class="large material-icons">mode_edit</i>
@@ -43,7 +45,7 @@
           </ul>
         </div>
 
-        <!--        hidden info-->
+        <!--hidden info-->
         <div class="fixed-action-btn" style="bottom: 45px; left: 24px; visibility:hidden">
             <a id="menu" class="btn btn-floating cyan"><i class="material-icons">menu</i></a>
         </div>
@@ -61,18 +63,20 @@
     import '@/less/photo.less'
     import '@/common/utils'
     import Footer from "../components/Footer";
+    import Preloader from "../components/Preloader";
     import { GetPhotoListAPI, GetCategoryAPI, DownloadPhotoAPI, ThumbPhotoAPI } from "@/common/api"
     window.$ = window.jQuery = require('jquery');
     export default {
         name: "Photo",
         components: {
             "footer-page": Footer,
+            "preloader": Preloader,
         },
         data: () => ({
             page: {
                 label: null,
             },
-            photos: [],
+            photos: null,
             total: 0,
             category: [],
         }),

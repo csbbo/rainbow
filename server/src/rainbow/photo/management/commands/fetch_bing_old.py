@@ -1,3 +1,4 @@
+import random
 import time
 import datetime
 import logging
@@ -34,7 +35,7 @@ def get_detail_page_url():
         for mark in marks:
             detail_pages_url.append(host + mark.get('href'))
 
-        if len(marks) < 12 or page > 200:
+        if len(marks) < 12 or page >= 25:
             break
         page += 1
         time.sleep(1)
@@ -55,9 +56,7 @@ def get_photo_data():
             'photo_time': bf.find('p', {'class': 'calendari'}).find('em', {'class': 't'}).get_text(),
             'photo_path': f'http://h2.ioliu.cn/bing/{photo_name}_1920x1080.jpg',
         })
-        if i % 500 == 0:
-            time.sleep(i/500)
-        time.sleep(1)
+        time.sleep(random.randint(1, 3))
     logger.error('GET ALL DATA DONE!')
     return data_list
 

@@ -1,8 +1,10 @@
 <template>
     <div id="PhotoDetail">
-        <div class="show-img">
+        <div v-if="photo" class="show-img">
             <img :src="photo.img_path">
         </div>
+
+        <preloader v-else></preloader>
 
         <div class="description">
             <div v-if="photo.create_time" class="createday">{{photo.create_time}}</div>
@@ -24,8 +26,12 @@
 <script>
     import '@/less/photodetail.less'
     import {GetPhotoAPI} from "@/common/api"
+    import Preloader from "../components/Preloader";
     export default {
         name: "PhotoDetail",
+        components: {
+            "preloader": Preloader,
+        },
         data: () => ({
             page: {
 

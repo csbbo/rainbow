@@ -2,14 +2,14 @@
 <div id="Container">
     <nav class="nav-menu">
       <div class="nav-wrapper">
-        <ul class="left hide-on-med-and-down">
+        <ul class="menu-left left hide-on-med-and-down">
           <li class="nav-logo" @click="backToHomePage">Rainbow</li>
           <li class="func-item-first"><router-link to="/photo">图片</router-link></li>
           <li class="func-item-first"><router-link to="/upload">上传</router-link></li>
           <li class="func-item"><router-link to="/about">关于</router-link></li>
         </ul>
 
-        <ul class="right hide-on-med-and-down">
+        <ul class="menu-right right hide-on-med-and-down">
           <li v-show="username">
             <!-- Dropdown Trigger -->
             <a class="nav-dropdown-trigger" href="#!" data-target="nav-dropdown-menu">
@@ -19,8 +19,8 @@
           </li>
 
           <div v-show="username == ''">
-            <li><a href="/login">登录</a></li>
-            <li><a href="/regist">注册</a></li>
+            <li><router-link to="/login">登录</router-link></li>
+            <li><router-link to="/regist">注册</router-link></li>
           </div>
         </ul>
       </div>
