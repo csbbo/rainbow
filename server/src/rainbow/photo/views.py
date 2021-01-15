@@ -11,7 +11,7 @@ from photo.models import Photo
 from photo.serializers import PhotoSerializer, CreatePhotoSerializer
 from utils.api import APIView, check
 from utils.serializers import UUIDOnlySerializer, UUIDListSerializer, UploadFileForm
-from utils.shortcuts import rand_str, datetime_pretty, save_file
+from utils.shortcuts import rand_str, datetime_pretty, save_file, end_of_day_seconds
 
 logger = logging.getLogger(__name__)
 
@@ -116,7 +116,7 @@ class ThumbPhotoAPI(APIView):
             photo.thumb_count += 1
             photo.save()
 
-        cache.set('thumb_' + id, client_ip, timeout=60*60*24)
+        cache.set('thumb_' + id, client_ip, timeout=end_of_day_seconds())
         return self.success()
 
 

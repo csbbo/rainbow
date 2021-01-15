@@ -61,3 +61,8 @@ def get_config():
     for config in configs:
         config_json[config.key] = config.value
     return config_json
+
+
+def end_of_day_seconds():
+    now = datetime.datetime.now()
+    return 86400 - datetime.timedelta(hours=now.hour, minutes=now.minute, seconds=now.second).total_seconds()

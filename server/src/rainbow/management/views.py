@@ -1,4 +1,3 @@
-import datetime
 import logging
 
 from django.core.cache import cache
@@ -7,6 +6,7 @@ from management.models import GuestBook
 from management.serializers import GuestBookSerializer
 from utils.api import APIView, check
 from utils.constans import PhotoTypeEnum
+from utils.shortcuts import end_of_day_seconds
 
 logger = logging.getLogger(__name__)
 
@@ -31,9 +31,9 @@ class GuestBookAPI(APIView):
         if guest_book_count and guest_book_count >= 10:
             return self.error('已达当日留言上限')
 
-        now = datetime.datetime.now()
-        timeout = 86400 - datetime.timedelta(hours=now.hour, minutes=now.minute, seconds=now.second).total_seconds()
-        cache.set('guest_book_' + data['ip_addr'], (guest_book_count + 1 if guest_book_count else 1), timeout=timeout)
+        cache.set('guest_book_' + data['ip_addr'],
+                  (guest_book_count + 1 if guest_book_count else 1),
+                  timeout=end_of_day_seconds())
 
         GuestBook.objects.create(**data)
         return self.success()
