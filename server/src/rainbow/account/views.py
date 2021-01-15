@@ -51,19 +51,24 @@ class RegistAPI(APIView):
     def post(self, request):
         data = request.data
         password = data['password']
-        phone = data.get('phone', None)
+        tel = data.get('tel', None)
         email = data.get('email', None)
+        captcha = data.get('captcha')
+
+        if captcha != cache.get(email):
+            return self.error('captcha error')
 
         if User.object.filter(username=data['username']).exists():
             return self.error('username is exists')
 
-        if phone and User.object.filter(tel=phone).exists():
+        if tel and User.object.filter(tel=tel).exists():
             return self.error('phone is exists')
 
         if email and User.object.filter(email=email).exists():
             return self.error('email is exists')
 
         del data['password']
+        del data['captcha']
         user = User.object.create(**data)
         user.set_password(password)
         user.user_type = UserTypeEnum.user
