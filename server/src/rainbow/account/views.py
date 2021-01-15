@@ -97,11 +97,11 @@ class PhoneCaptchaAPI(APIView):
     @check(login_required=False, serializer=PhoneSerializer)
     def get(self, request):
         phone = request.data['phone']
-        if cache.get(phone):
+        if cache.get('captcha_' + phone):
             return self.error('at least 120s between captcha application')
 
         captcha = rand_str(length=4, type='lower_hex')
-        cache.set(phone, captcha, timeout=120)
+        cache.set('captcha_' + phone, captcha, timeout=120)
         # send_phone_captcha
         return self.success()
 
@@ -110,10 +110,10 @@ class EmailCaptchaAPI(APIView):
     @check(login_required=False, serializer=EmailSerializer)
     def get(self, request):
         email = request.data['email']
-        if cache.get(email):
+        if cache.get('captcha_' + email):
             return self.error('at least 120s between captcha application')
 
         captcha = rand_str(length=4, type='lower_hex')
-        cache.set(email, captcha, timeout=120)
+        cache.set('captcha_' + email, captcha, timeout=120)
         send_email_captcha(email, captcha)
         return self.success()

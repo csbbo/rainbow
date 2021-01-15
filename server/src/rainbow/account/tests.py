@@ -41,6 +41,6 @@ class AuthInfoAPITest(APITestCase):
         self.url = self.get_url("AuthInfoAPI")
         self.create_user(username='bob', password='123456', login=True)
 
-    def test_regist(self):
+    def test_auth_user(self):
         resp = self.get(self.url)
         self.assertSuccess(resp)

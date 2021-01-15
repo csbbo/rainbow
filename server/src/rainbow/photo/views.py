@@ -104,7 +104,7 @@ class ThumbPhotoAPI(APIView):
     def post(self, request):
         id = request.data['id']
         client_ip = request.META['REMOTE_ADDR']
-        cache_ip = cache.get(id)
+        cache_ip = cache.get('thumb_' + id)
         if cache_ip and cache_ip == client_ip:
             return self.error('一天只能点赞一次!')
 
@@ -116,7 +116,7 @@ class ThumbPhotoAPI(APIView):
             photo.thumb_count += 1
             photo.save()
 
-        cache.set(id, client_ip, timeout=60*60*24)
+        cache.set('thumb_' + id, client_ip, timeout=60*60*24)
         return self.success()
 
 
