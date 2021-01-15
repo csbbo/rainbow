@@ -33,7 +33,7 @@
       <li><a href="#!">one</a></li>
       <li><a href="#!">two</a></li>
       <li class="divider"></li>
-      <li><a href="#!">three</a></li>
+      <li @click="logout()"><a href="#!">注销</a></li>
     </ul>
 
   <router-view></router-view>
@@ -44,6 +44,7 @@
 import "@/less/container.less"
 import { store } from '@/store/index'
 window.$ = window.jQuery = require('jquery');
+import { LogoutAPI } from "@/common/api"
 export default {
   name: "NavMenu",
   data: () => ({
@@ -65,6 +66,11 @@ export default {
     backToHomePage() {
       this.$router.push("/")
     },
+    logout() {
+      LogoutAPI().then(() => {
+        this.$router.push('/login')
+      })
+    }
   }
 }
 </script>

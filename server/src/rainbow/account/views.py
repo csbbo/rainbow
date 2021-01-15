@@ -76,6 +76,12 @@ class RegistAPI(APIView):
         return self.success()
 
 
+class LogoutAPI(APIView):
+    def post(self, request):
+        auth.logout(request)
+        return self.success()
+
+
 class AuthInfoAPI(APIView):
     @check(login_required=True, permission='__all__')
     def get(self, request):
