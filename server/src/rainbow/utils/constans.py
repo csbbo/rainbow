@@ -6,10 +6,11 @@ class Choices:
         return list(ret - set(exclude_field))
 
 
-class ConfigKeyEnum(Choices):
+class ConfigEnum(Choices):
     EMAIL_ADDR = 'EMAIL_ADDR'
     EMAIL_SMTP_SERVER = 'EMAIL_SMTP_SERVER'
     EMAIL_PORT = 'EMAIL_PORT'
+    EMAIL_PASSWORD = 'EMAIL_PASSWORD'
 
 
 class PhotoTypeEnum(Choices):

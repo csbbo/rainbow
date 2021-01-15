@@ -8,6 +8,8 @@ from django.conf import settings
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 
+from management.models import Config
+
 
 def datetime_pretty(value=None, *, fmt="%Y-%m-%d %H:%M:%S %Z"):
     """
@@ -51,3 +53,11 @@ def rand_str(length=32, type="lower_hex"):
         return get_random_string(length, allowed_chars="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
     else:
         return random.choice("123456789") + get_random_string(length - 1, allowed_chars="0123456789")
+
+
+def get_config():
+    config_json = {}
+    configs = Config.objects.all()
+    for config in configs:
+        config_json[config.key] = config.value
+    return config_json

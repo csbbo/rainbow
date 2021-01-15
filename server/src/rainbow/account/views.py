@@ -2,13 +2,16 @@ import logging
 
 from django.contrib import auth
 from django.contrib.sessions.models import Session
+from django.core.cache import cache
 from django.db import transaction
 from django.utils import timezone
 
 from account.models import User
-from account.serializers import LoginSerializer, RegistSerializer
+from account.serializers import LoginSerializer, RegistSerializer, PhoneSerializer, EmailSerializer
+from management.utils import send_email_captcha
 from utils.api import APIView, check
 from utils.constans import UserTypeEnum
+from utils.shortcuts import rand_str
 
 logger = logging.getLogger(__name__)
 
@@ -48,14 +51,14 @@ class RegistAPI(APIView):
     def post(self, request):
         data = request.data
         password = data['password']
-        tel = data.get('tel', None)
+        phone = data.get('phone', None)
         email = data.get('email', None)
 
         if User.object.filter(username=data['username']).exists():
             return self.error('username is exists')
 
-        if tel and User.object.filter(tel=tel).exists():
-            return self.error('tel is exists')
+        if phone and User.object.filter(tel=phone).exists():
+            return self.error('phone is exists')
 
         if email and User.object.filter(email=email).exists():
             return self.error('email is exists')
@@ -65,4 +68,31 @@ class RegistAPI(APIView):
         user.set_password(password)
         user.user_type = UserTypeEnum.user
         user.save()
+        return self.success()
+
+
+# not use
+class PhoneCaptchaAPI(APIView):
+    @check(login_required=False, serializer=PhoneSerializer)
+    def get(self, request):
+        phone = request.data['phone']
+        if cache.get(phone):
+            return self.error('at least 120s between captcha application')
+
+        captcha = rand_str(length=4, type='lower_hex')
+        cache.set(phone, captcha, timeout=120)
+        # send_phone_captcha
+        return self.success()
+
+
+class EmailCaptchaAPI(APIView):
+    @check(login_required=False, serializer=EmailSerializer)
+    def get(self, request):
+        email = request.data['email']
+        if cache.get(email):
+            return self.error('at least 120s between captcha application')
+
+        captcha = rand_str(length=4, type='lower_hex')
+        cache.set(email, captcha, timeout=120)
+        send_email_captcha(email, captcha)
         return self.success()
