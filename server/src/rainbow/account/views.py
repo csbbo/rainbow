@@ -27,11 +27,11 @@ class LoginAPI(APIView):
             try:
                 User.object.select_for_update().get(username=username)
             except User.DoesNotExist:
-                return self.error('username not exist')
+                return self.error('用户不存在!')
 
             user = auth.authenticate(username=username, password=password)
             if not user:
-                return self.error('password error')
+                return self.error('密码错误!')
 
             auth.login(request=request, user=user)
             user.last_login_time = timezone.now()
@@ -56,16 +56,16 @@ class RegistAPI(APIView):
         captcha = data.get('captcha')
 
         if captcha != cache.get(email):
-            return self.error('captcha error')
+            return self.error('验证码错误!')
 
         if User.object.filter(username=data['username']).exists():
-            return self.error('username is exists')
+            return self.error('该用户名已注册!')
 
         if tel and User.object.filter(tel=tel).exists():
-            return self.error('phone is exists')
+            return self.error('该手机号已注册!')
 
         if email and User.object.filter(email=email).exists():
-            return self.error('email is exists')
+            return self.error('该邮箱已注册!')
 
         del data['password']
         del data['captcha']
