@@ -6,8 +6,10 @@ import typing
 from urllib.parse import quote
 
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import JsonResponse, QueryDict
+from django.http import QueryDict, HttpResponse
 from django.views.generic.base import View
+
+from utils.shortcuts import MyJSONEncoder
 
 logger = logging.getLogger(__name__)
 
@@ -19,10 +21,13 @@ class ContentType:
     binary_response = "application/octet-stream"
 
 
-class Response:
+class JSONResponse:
+    content_type = ContentType.json_response
+
     @classmethod
     def response(cls, data, status):
-        resp = JsonResponse(data, status=status)
+        resp = HttpResponse(json.dumps(data, indent=4, cls=MyJSONEncoder),
+                            content_type=cls.content_type, status=status)
         resp.data = data
         return resp
 
@@ -35,7 +40,7 @@ class APIError(Exception):
 
 
 class APIView(View):
-    response_class = Response
+    response_class = JSONResponse
     request_header = (ContentType.json_request, ContentType.url_encoded_request)
 
     def _get_request_data(self):

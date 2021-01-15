@@ -136,6 +136,17 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+REST_FRAMEWORK = {
+    'DATETIME_FORMAT': '%s.%f',    # DateTimeField转换为Timestamp形式的字符串
+    'DATE_FORMAT': '%s',
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    )
+}
+
+FILE_UPLOAD_MAX_MEMORY_SIZE = 1 * 1024 * 1024   # 1G
+
 # 认证系统使用自定义User
 AUTH_USER_MODEL = 'account.User'
 
