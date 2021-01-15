@@ -76,6 +76,16 @@ class RegistAPI(APIView):
         return self.success()
 
 
+class AuthInfoAPI(APIView):
+    @check(login_required=True, permission='__all__')
+    def get(self, request):
+        user = request.user
+        data = {
+            'username': user.username
+        }
+        return self.success(data)
+
+
 # not use
 class PhoneCaptchaAPI(APIView):
     @check(login_required=False, serializer=PhoneSerializer)

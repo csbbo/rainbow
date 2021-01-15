@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '@/store/index'
+
 import TestCss from './views/TestCss'
 import Main from './views/Main'
 import Container from "./components/Container";
@@ -10,7 +12,7 @@ import PhotoDetail from './views/PhotoDetail'
 import UploadPhoto from './views/UploadPhoto'
 import About from './views/About'
 import NotFound from './views/404'
-import {CheckAuthAPI} from "@/common/api";
+// import {CheckAuthAPI} from "@/common/api";
 
 Vue.use(Router)
 
@@ -25,7 +27,7 @@ const router = new Router({
 
                 {path: '/photo', name: 'photo', component: Photo},
                 {path: '/detail/:id', name: 'detail', component: PhotoDetail},
-                {path: '/upload', name: 'upload', component: UploadPhoto},
+                {path: '/upload', name: 'upload', component: UploadPhoto, meta: {requireAuth: true}},
                 {path: '/about', name: 'about', component: About},
                 {path: '/404', name: '404', component: NotFound},
             ]
@@ -36,15 +38,20 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
     if (to.meta.requireAuth === true){
-        CheckAuthAPI().then(resp=>{
-            if (resp.ret === 0) {
-                next()
-            } else {
-                next({ path: '/login' })
-            }
-        }).catch(() => {
-            next({path: '/'})
-        })
+        if (store.state.username !== '') {
+            next()
+        } else {
+            next({ path: '/login' })
+        }
+        // CheckAuthAPI().then(resp=>{
+        //     if (resp.ret === 0) {
+        //         next()
+        //     } else {
+        //         next({ path: '/login' })
+        //     }
+        // }).catch(() => {
+        //     next({path: '/'})
+        // })
     } else {
         next()
     }

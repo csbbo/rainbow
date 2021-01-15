@@ -35,3 +35,12 @@ class RegistAPITest(APITestCase):
         resp = self.post(self.url, data=data)
         self.assertSuccess(resp)
 
+
+class AuthInfoAPITest(APITestCase):
+    def setUp(self):
+        self.url = self.get_url("AuthInfoAPI")
+        self.create_user(username='bob', password='123456', login=True)
+
+    def test_regist(self):
+        resp = self.get(self.url)
+        self.assertSuccess(resp)

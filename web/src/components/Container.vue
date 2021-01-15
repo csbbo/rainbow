@@ -18,13 +18,23 @@
             </a>
           </li>
 
-          <div v-show="username == ''">
+          <div v-if="!username">
             <li><router-link to="/login">登录</router-link></li>
             <li><router-link to="/regist">注册</router-link></li>
           </div>
+          <!-- Dropdown Trigger -->
+          <li v-else><a class="dropdown-trigger" href="#!" data-target="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
         </ul>
       </div>
     </nav>
+
+    <!-- Dropdown Structure -->
+    <ul id="dropdown1" class="dropdown-content">
+      <li><a href="#!">one</a></li>
+      <li><a href="#!">two</a></li>
+      <li class="divider"></li>
+      <li><a href="#!">three</a></li>
+    </ul>
 
   <router-view></router-view>
 </div>
@@ -32,51 +42,29 @@
 
 <script>
 import "@/less/container.less"
-// import {LogoutAPI,GetUserAPI} from "@/common/api"
+import { store } from '@/store/index'
+window.$ = window.jQuery = require('jquery');
 export default {
   name: "NavMenu",
   data: () => ({
-    page: {
-      search: '',
-    },
+    // page: {
+    //   search: '',
+    // },
     username: '',
-    imgPath: ''
+    // imgPath: ''
   }),
   mounted() {
-    window.jQuery('.nav-dropdown-trigger').dropdown();
+    window.jQuery(document).ready(function(){
+        window.jQuery(".dropdown-trigger").dropdown();
+    });
   },
   created() {
-    // this.getuser()
+    this.username = store.state.username
   },
   methods: {
-    // search() {
-    //   if (this.page.search !== '') {
-    //     delete this.$route.query.label
-    //     this.$router.replace({path: '/photo', query: { ...this.$route.query, search: this.page.search } })
-    //     location.reload()
-    //   }
-    // },
     backToHomePage() {
       this.$router.push("/")
     },
-    // logout() {
-    //   LogoutAPI().then(resp => {
-    //     if (resp.ret !== 0) {
-    //       alert(resp.msg)
-    //     }
-    //     this.$router.push("/")
-    //     this.username = ''
-    //   })
-    // },
-    // getuser() {
-    //   GetUserAPI().then(resp => {
-    //     if (resp.ret !== 0) {
-    //       return
-    //     }
-    //     this.username = resp.data.username
-    //     this.imgPath = resp.data.img_path
-    //   })
-    // }
   }
 }
 </script>

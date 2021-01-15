@@ -74,6 +74,9 @@ class APIView(View):
     def login_required(self):
         return self.error(err="login-required", msg="需要登录", status=401)
 
+    def permission_denied(self):
+        return self.error(err="permission-denied", msg="访问受限")
+
     def extract_errors(self, errors, key="field"):
         if isinstance(errors, dict):
             if not errors:

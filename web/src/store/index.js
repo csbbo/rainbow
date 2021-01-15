@@ -4,9 +4,13 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 export const store = {
     state: {
+        username: '',
         codeCountDown: 0,
     },
     mutations: {
+        SetUsername (state, username) {
+            state.username = username
+        },
         ReduceCodeCountDown (state) {
             state.codeCountDown--
         },
