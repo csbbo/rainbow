@@ -55,7 +55,7 @@ class RegistAPI(APIView):
         email = data.get('email', None)
         captcha = data.get('captcha')
 
-        if captcha != cache.get(email):
+        if captcha != cache.get('captcha_' + email):
             return self.error('验证码错误!')
 
         if User.object.filter(username=data['username']).exists():
@@ -110,8 +110,8 @@ class EmailCaptchaAPI(APIView):
     @check(login_required=False, serializer=EmailSerializer)
     def get(self, request):
         email = request.data['email']
-        # if cache.get('captcha_' + email):
-        #     return self.error('at least 120s between captcha application')
+        if cache.get('captcha_' + email):
+            return self.error('at least 120s between captcha application')
 
         captcha = rand_str(length=4, type='lower_hex')
         cache.set('captcha_' + email, captcha, timeout=120)

@@ -18,8 +18,8 @@ def _format_addr(s):
 def send_email(to_list, subject, html):
     config = get_config()
     msg = MIMEText(html, 'html', 'utf-8')
-    msg['From'] = _format_addr('每日comment <%s>' % config.get(ConfigEnum.EMAIL_ADDR))
-    msg['To'] = ';'.join([_format_addr('你好! <%s>' % addr) for addr in to_list])
+    msg['From'] = _format_addr('Magic Style <%s>' % config.get(ConfigEnum.EMAIL_ADDR))  # who i am
+    msg['To'] = ';'.join([_format_addr('你好! <%s>' % addr) for addr in to_list])     # recipients
     msg['Subject'] = Header(subject, 'utf-8').encode()
 
     try:
