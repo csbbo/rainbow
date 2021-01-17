@@ -1,5 +1,7 @@
 from django.core.cache import cache
 
+from management.models import Config
+from utils.constans import ConfigEnum
 from utils.shortcuts import rand_str
 from utils.tests import APITestCase
 
@@ -44,3 +46,21 @@ class AuthInfoAPITest(APITestCase):
     def test_auth_user(self):
         resp = self.get(self.url)
         self.assertSuccess(resp)
+
+
+class EmailCaptchaAPITest(APITestCase):
+    def setUp(self):
+        self.url = self.get_url('EmailCaptchaAPI')
+
+        insert_list = [
+            {'key': ConfigEnum.EMAIL_ADDR, 'value': 'admin@foxmail.com'},
+            {'key': ConfigEnum.EMAIL_PASSWORD, 'value': 'password'},
+            {'key': ConfigEnum.EMAIL_SMTP_SERVER, 'value': 'smtp.qq.com'},
+            {'key': ConfigEnum.EMAIL_PORT, 'value': 587},
+        ]
+        for item in insert_list:
+            Config.objects.create(**item)
+
+    def test_get_code(self):
+        resp = self.get(self.url, {'email': 'test@gmail.com'})
+        self.assertFailed(resp)

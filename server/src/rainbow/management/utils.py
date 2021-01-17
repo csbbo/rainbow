@@ -25,7 +25,7 @@ def send_email(to_list, subject, html):
     try:
         server = smtplib.SMTP(config.get(ConfigEnum.EMAIL_SMTP_SERVER), config.get(ConfigEnum.EMAIL_PORT))
         server.starttls()
-        server.set_debuglevel(1)
+        # server.set_debuglevel(1)
         server.login(config.get(ConfigEnum.EMAIL_ADDR), config.get(ConfigEnum.EMAIL_PASSWORD))
         r = server.sendmail(config.get(ConfigEnum.EMAIL_ADDR), to_list, msg.as_string())
         server.quit()

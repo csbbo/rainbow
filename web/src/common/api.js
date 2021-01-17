@@ -24,7 +24,7 @@ const fetchData = (url = '', data = {}, method = 'GET') => {
     }
 }
 
-// export const SendCodeAPI = data => fetchData('/api/code', data, 'POST')
+export const EmailCaptchaAPI = data => fetchData('/api/EmailCaptchaAPI', data, 'GET')
 export const LoginAPI = data => fetchData('/api/LoginAPI', data, 'POST')
 export const RegistAPI = data => fetchData('/api/RegistAPI', data, 'POST')
 export const LogoutAPI = () => fetchData('/api/LogoutAPI', {}, 'POST')

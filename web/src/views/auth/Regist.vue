@@ -29,7 +29,7 @@
 <script>
     import "@/less/auth.less"
     import { store } from '@/store/index'
-    import { RegistAPI } from "@/common/api"
+    import { RegistAPI, EmailCaptchaAPI} from "@/common/api"
     export default {
         name: "Regist",
         data: () => ({
@@ -59,11 +59,25 @@
         },
         methods: {
             getCode(count=120) {
-              if (store.state.codeCountDown !== 0) {
-                  return
-              }
-              this.disable = true
-              store.mutations.SetCodeCountDown(store.state, count)
+                if (!this.form.email) {
+                    this.authErr = '请先填写邮箱'
+                    return
+                }
+                if (!this.form.email.match(/^[^@]+@[^@]+\.[^@]+$/)) {
+                    this.authErr = '邮箱格式错误!'
+                    return
+                }
+                if (store.state.codeCountDown !== 0) {
+                    return
+                }
+                EmailCaptchaAPI({email: this.form.email}).then(resp => {
+                    if (resp.error !== null) {
+                        this.authErr = resp.msg
+                        return
+                    }
+                })
+                this.disable = true
+                store.mutations.SetCodeCountDown(store.state, count)
 
                 const interval = setInterval(() => {    //貌似函数会在后台执行，所以只要不强刷，切换到别的页面还是会计数
                     if (store.state.codeCountDown > 0) {

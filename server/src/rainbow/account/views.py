@@ -110,10 +110,12 @@ class EmailCaptchaAPI(APIView):
     @check(login_required=False, serializer=EmailSerializer)
     def get(self, request):
         email = request.data['email']
-        if cache.get('captcha_' + email):
-            return self.error('at least 120s between captcha application')
+        # if cache.get('captcha_' + email):
+        #     return self.error('at least 120s between captcha application')
 
         captcha = rand_str(length=4, type='lower_hex')
         cache.set('captcha_' + email, captcha, timeout=120)
-        send_email_captcha(email, captcha)
+        is_success = send_email_captcha(email, captcha)
+        if not is_success:
+            return self.error('发送失败!')
         return self.success()

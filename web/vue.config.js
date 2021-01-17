@@ -1,6 +1,6 @@
 module.exports = {
     productionSourceMap: false,
     devServer: {
-        proxy: 'https://magicstyle.fun',
+        proxy: 'https://shaobo.fun',
     },
 }
