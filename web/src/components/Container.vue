@@ -10,20 +10,20 @@
         </ul>
 
         <ul class="menu-right right hide-on-med-and-down">
-          <li v-show="username">
-            <!-- Dropdown Trigger -->
-            <a class="nav-dropdown-trigger" href="#!" data-target="nav-dropdown-menu">
-              <img src="https://avatars1.githubusercontent.com/u/35909137?s=400&u=9dd8afe3ff9acc78ea474b5d54e879ee5a50e75c&v=4" alt="avatar" class="circle">
-              <i class="material-icons right">arrow_drop_down</i>
-            </a>
-          </li>
+<!--          <li v-show="username">-->
+<!--            &lt;!&ndash; Dropdown Trigger &ndash;&gt;-->
+<!--            <a class="nav-dropdown-trigger" href="#!" data-target="nav-dropdown-menu">-->
+<!--              <img src="https://avatars1.githubusercontent.com/u/35909137?s=400&u=9dd8afe3ff9acc78ea474b5d54e879ee5a50e75c&v=4" alt="avatar" class="circle">-->
+<!--              <i class="material-icons right">arrow_drop_down</i>-->
+<!--            </a>-->
+<!--          </li>-->
+          <!-- Dropdown Trigger -->
+          <li v-show="username"><a class="dropdown-trigger" href="#!" data-target="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
 
-          <div v-if="!username">
+          <div v-show="!username">
             <li><router-link to="/login">登录</router-link></li>
             <li><router-link to="/regist">注册</router-link></li>
           </div>
-          <!-- Dropdown Trigger -->
-          <li v-else><a class="dropdown-trigger" href="#!" data-target="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
         </ul>
       </div>
     </nav>
@@ -44,7 +44,7 @@
 import "@/less/container.less"
 import { store } from '@/store/index'
 window.$ = window.jQuery = require('jquery');
-import { LogoutAPI } from "@/common/api"
+import { LogoutAPI, AuthInfoAPI } from "@/common/api"
 export default {
   name: "NavMenu",
   data: () => ({
@@ -60,7 +60,7 @@ export default {
     });
   },
   created() {
-    this.username = store.state.username
+    this.auth()
   },
   methods: {
     backToHomePage() {
@@ -68,7 +68,19 @@ export default {
     },
     logout() {
       LogoutAPI().then(() => {
+        store.mutations.SetUsername(store.state, '')
+        this.username = store.state.username
         this.$router.push('/login')
+      })
+    },
+    auth() {
+      AuthInfoAPI().then(resp => {
+        if (resp.err === null) {
+          store.mutations.SetUsername(store.state, resp.data.username)
+          this.username = store.state.username
+        }
+      }).catch(() => {
+        console.log('auth exception')
       })
     }
   }

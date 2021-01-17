@@ -51,6 +51,7 @@
                         return
                     }
                     this.$router.push('/photo')
+                    location.reload()
                 })
             }
         },
