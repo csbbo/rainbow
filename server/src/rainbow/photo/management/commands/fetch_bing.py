@@ -32,14 +32,20 @@ def save_remote_image(url, name, path=settings.PHOTOS_PATH):
         os.makedirs(path)
     save_path = os.path.join(path, name)
 
-    with requests.get(url, timeout=30, stream=True) as r:
-        with open(save_path, 'wb') as f:
-            for d in r.iter_content(128):
-                f.write(d)
+    while True:
+        try:
+            with requests.get(url, timeout=30, stream=True) as r:
+                with open(save_path, 'wb') as f:
+                    for d in r.iter_content(128):
+                        f.write(d)
+            break
+        except Exception as e:
+            logger.error('download image error: \n' + str(e) + "\n the request will be rerequested after 10 seconds")
+            time.sleep(10)
 
 
 def get_image_info(date: int = 0, nums: int = 8):
-    url = f'https://www.bing.com/HPImageArchive.aspx?format=js&idx={date}&n={nums}&nc=1607762051663&pid=hp&FORM=BEHPTB&uhd=1&uhdwidth=3840&uhdheight=2160'
+    url = f'https://www.cn.bing.com/HPImageArchive.aspx?format=js&idx={date}&n={nums}&nc=1607762051663&pid=hp&FORM=BEHPTB&uhd=1&uhdwidth=3840&uhdheight=2160'
     proxies = {
         'https': None
     }
@@ -89,7 +95,7 @@ def sync_remote_image():
                     Photo.objects.create(**new_photo)
                     break
                 except Exception as e:
-                    logger.error("gsave image fail with error: \n" + str(e) +
+                    logger.error("save image fail with error: \n" + str(e) +
                                  "\n the request will be rerequested after 30 seconds")
                     time.sleep(30)
 

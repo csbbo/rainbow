@@ -29,7 +29,12 @@ def get_detail_page_url():
     while True:
         logger.error(f'fetch page {page}')
         url = f'{host}/?p={page}'
-        r = requests.get(url, headers=headers)
+        while True:
+            try:
+                r = requests.get(url, headers=headers)
+                break
+            except:
+                time.sleep(10)
         bf = BeautifulSoup(r.text, 'lxml')
         marks = bf.find_all('a', 'mark')
         for mark in marks:
@@ -48,7 +53,12 @@ def get_photo_data():
     data_list = []
     for i, page_url in enumerate(page_urls):
         logger.error(f'fetch image {i+1}')
-        r = requests.get(page_url, headers=headers)
+        while True:
+            try:
+                r = requests.get(page_url, headers=headers)
+                break
+            except:
+                time.sleep(10)
         bf = BeautifulSoup(r.text, 'lxml')
         photo_name = bf.find('a', {'class': 'download'})['href'].split('/')[-1].split('?')[0]
         data_list.append({
