@@ -59,7 +59,7 @@ class PhotoListAPI(APIView):
             photos = Photo.objects.filter(
                 Q(name__icontains=search) | Q(description__icontains=search) | Q(copyright__icontains=search)).order_by('-create_time')
         else:
-            photos = Photo.objects.all()
+            photos = Photo.objects.order_by('-create_time')
 
         data = self.paginate_data(photos, object_serializer=PhotoSerializer, force=True)
         return self.success(data)
