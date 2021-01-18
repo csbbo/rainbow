@@ -1,6 +1,7 @@
 import datetime
 import logging
 import os
+import time
 
 import pytz
 import requests
@@ -46,7 +47,13 @@ def get_image_info(date: int = 0, nums: int = 8):
         'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
     }
 
-    r = requests.get(url, proxies=proxies, headers=headers)
+    while True:
+        try:
+            r = requests.get(url, proxies=proxies, headers=headers)
+            break
+        except Exception as e:
+            logger.error("get info error: \n" + str(e) + "\n the request will be rerequested after 30 seconds")
+            time.sleep(30)
     resp = r.json()
     images = resp['images']
 
@@ -68,22 +75,23 @@ def sync_remote_image():
         if not Photo.objects.filter(create_time=create_time, category__contains=[PhotoTypeEnum.bing, ]).exists():
             name = img['copyright']
             save_name = rand_str(32)
-            try:
-                save_remote_image('https://bing.com' + img['url'], name=save_name)
-                dpi = get_image_dpi(save_name)
-                new_photo = {
-                    'name': name,
-                    # 'description': None,
-                    # 'location': 'Beijing',
-                    # 'copyright': copyright,
-                    'category': [PhotoTypeEnum.bing],
-                    'dpi': dpi,
-                    'save_name': save_name,
-                    'create_time': create_time
-                }
-                Photo.objects.create(**new_photo)
-            except Exception as e:
-                logger.error("save image fail with error: \n" + str(e))
+            while True:
+                try:
+                    save_remote_image('https://bing.com' + img['url'], name=save_name)
+                    dpi = get_image_dpi(save_name)
+                    new_photo = {
+                        'name': name,
+                        'category': [PhotoTypeEnum.bing],
+                        'dpi': dpi,
+                        'save_name': save_name,
+                        'create_time': create_time
+                    }
+                    Photo.objects.create(**new_photo)
+                    break
+                except Exception as e:
+                    logger.error("gsave image fail with error: \n" + str(e) +
+                                 "\n the request will be rerequested after 30 seconds")
+                    time.sleep(30)
 
 
 class Command(BaseCommand):
