@@ -4,6 +4,8 @@ from django.core.cache import cache
 
 from management.models import GuestBook
 from management.serializers import GuestBookSerializer
+from photo.models import Photo
+from photo.serializers import PhotoSerializer
 from utils.api import APIView, check
 from utils.constans import PhotoTypeEnum
 from utils.shortcuts import end_of_day_seconds
@@ -37,3 +39,11 @@ class GuestBookAPI(APIView):
 
         GuestBook.objects.create(**data)
         return self.success()
+
+
+class MainPageAPI(APIView):
+    @check(login_required=False)
+    def get(self, request):
+        bing_newest_photo = Photo.objects.filter(category__contains=[PhotoTypeEnum.bing, ]).order_by('-create_time').first()
+        bing_photo = PhotoSerializer(bing_newest_photo).data
+        return self.success({'bing': bing_photo})
