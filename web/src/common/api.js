@@ -30,20 +30,9 @@ export const RegistAPI = data => fetchData('/api/RegistAPI', data, 'POST')
 export const LogoutAPI = () => fetchData('/api/LogoutAPI', {}, 'POST')
 export const AuthInfoAPI = () => fetchData('/api/AuthInfoAPI', {}, 'GET')
 export const CheckAuthAPI = () => fetchData('/api/checkauth', {}, 'GET')
-// export const ArticleCreateAPI = data => fetchData('/api/article', data, 'POST')
-// export const ShowArticlesAPI = () => fetchData('/api/showarticles', {}, 'GET')
-// export const GetArticleListAPI = () => fetchData('/api/articlelist', {}, 'GET')
 
 export const GetPhotoListAPI = data => fetchData('/api/PhotoListAPI', data, 'GET')
 export const GetPhotoAPI = data => fetchData('/api/PhotoAPI', data, 'GET')
 export const GetCategoryAPI = () => fetchData('/api/CategoryAPI', {}, 'GET')
-// export const DownloadPhotoAPI = data => fetchData('/api/DownloadPhotoAPI', data, 'POST')
 export const ThumbPhotoAPI = data => fetchData('/api/ThumbPhotoAPI', data, 'POST')
-
-export const DownloadPhotoAPI = data =>
-  axios({
-    method: 'GET',
-    responseType: 'blob',
-    url: '/api/DownloadPhotoAPI',
-    data: qs.stringify(data),
-  }).then(response => response).catch(err => err)
+export const DownloadPhotoAPI = data => fetchData('/api/DownloadPhotoAPI', data, 'GET')
