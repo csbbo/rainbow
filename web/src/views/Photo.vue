@@ -124,10 +124,12 @@
                 })
             },
             thumbPhoto(id) {
-                ThumbPhotoAPI(id).then(resp => {
+                ThumbPhotoAPI({id: id}).then(resp => {
                     if (resp.err != null) {
                         alert(resp.msg)
+                        return
                     }
+                    this.getPhoto()
                 })
             }
         }
