@@ -33,7 +33,7 @@ class RegistAPITest(APITestCase):
             'tel': '12345678900',
             'captcha': captcha
         }
-        cache.set(data['email'], data['captcha'], timeout=120)
+        cache.set('captcha_' + data['email'], data['captcha'], timeout=120)
         resp = self.post(self.url, data=data)
         self.assertSuccess(resp)
 

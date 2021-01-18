@@ -19,9 +19,9 @@ def create_test_data(data_count=10):
             'save_name': rand_str(32),
             'upload_name': f'rainbow{i}',
 
-            'watch_count': random.randint(0,100),
-            'thumb_count': random.randint(0,100),
-            'download_count': random.randint(0,100),
+            'watch_count': random.randint(0, 100),
+            'thumb_count': random.randint(0, 100),
+            'download_count': random.randint(0, 100),
         }
         photo = Photo.objects.create(**data)
         data['id'] = str(photo.id)
