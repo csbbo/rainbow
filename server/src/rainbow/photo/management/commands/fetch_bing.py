@@ -83,7 +83,7 @@ def sync_remote_image():
             save_name = rand_str(32)
             while True:
                 try:
-                    save_remote_image('https://bing.com' + img['url'], name=save_name)
+                    save_remote_image('https://cn.bing.com' + img['url'], name=save_name)
                     dpi = get_image_dpi(save_name)
                     new_photo = {
                         'name': name,
