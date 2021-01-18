@@ -10,16 +10,21 @@
         </ul>
 
         <ul class="menu-right right hide-on-med-and-down">
-<!--          <li v-show="username">-->
-<!--            &lt;!&ndash; Dropdown Trigger &ndash;&gt;-->
-<!--            <a class="nav-dropdown-trigger" href="#!" data-target="nav-dropdown-menu">-->
-<!--              <img src="https://avatars1.githubusercontent.com/u/35909137?s=400&u=9dd8afe3ff9acc78ea474b5d54e879ee5a50e75c&v=4" alt="avatar" class="circle">-->
-<!--              <i class="material-icons right">arrow_drop_down</i>-->
-<!--            </a>-->
-<!--          </li>-->
-          <!-- Dropdown Trigger -->
-          <li v-show="username"><a class="dropdown-trigger" href="#!" data-target="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
+          <li v-show="username">
+            <!-- Dropdown Trigger -->
+            <a class="dropdown1-trigger" href="#!" data-target="dropdown1">
+              <img src="https://avatars1.githubusercontent.com/u/35909137?s=400&u=9dd8afe3ff9acc78ea474b5d54e879ee5a50e75c&v=4" alt="avatar" class="circle">
+              <i class="material-icons right">arrow_drop_down</i>
+            </a>
 
+            <!-- Dropdown Structure -->
+            <ul id="dropdown1" class="dropdown-content">
+              <li><a href="#!">one</a></li>
+              <li><a href="#!">two</a></li>
+              <li class="divider"></li>
+              <li @click="logout()"><a href="#!"><i class="material-icons">exit_to_app</i>注销</a></li>
+            </ul>
+          </li>
           <div v-show="!username">
             <li><router-link to="/login">登录</router-link></li>
             <li><router-link to="/regist">注册</router-link></li>
@@ -27,14 +32,6 @@
         </ul>
       </div>
     </nav>
-
-    <!-- Dropdown Structure -->
-    <ul id="dropdown1" class="dropdown-content">
-      <li><a href="#!">one</a></li>
-      <li><a href="#!">two</a></li>
-      <li class="divider"></li>
-      <li @click="logout()"><a href="#!">注销</a></li>
-    </ul>
 
   <router-view></router-view>
 </div>
@@ -48,15 +45,11 @@ import { LogoutAPI, AuthInfoAPI } from "@/common/api"
 export default {
   name: "NavMenu",
   data: () => ({
-    // page: {
-    //   search: '',
-    // },
     username: '',
-    // imgPath: ''
   }),
   mounted() {
     window.jQuery(document).ready(function(){
-        window.jQuery(".dropdown-trigger").dropdown();
+        window.jQuery(".dropdown1-trigger").dropdown();
     });
   },
   created() {
