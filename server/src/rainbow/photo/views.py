@@ -1,7 +1,9 @@
 import logging
+import os
 from functools import reduce
 from operator import or_
 
+import cv2
 from django.conf import settings
 from django.core.cache import cache
 from django.db import transaction
@@ -9,6 +11,7 @@ from django.db.models import Q
 
 from photo.models import Photo
 from photo.serializers import PhotoSerializer, CreatePhotoSerializer
+from photo.utils import cv2_base64
 from utils.api import APIView, check
 from utils.serializers import UUIDOnlySerializer, UUIDListSerializer, UploadFileForm
 from utils.shortcuts import rand_str, datetime_pretty, save_file, end_of_day_seconds
@@ -97,6 +100,21 @@ class DownloadPhotoAPI(APIView):
 
         download_name = f"rainbow_{datetime_pretty(fmt='%Y%m%d')}_{rand_str(length=8)}.jpg"
         return self.download_photo(download_name=download_name, save_name=photo.save_name)
+
+
+class DownloadGrayPhotoAPI(APIView):
+    @check(login_required=False, serializer=UUIDOnlySerializer)
+    def get(self, request):
+        id = request.data['id']
+        try:
+            photo = Photo.objects.get(id=id)
+        except Photo.DoesNotExist:
+            return self.error('图片不存在!')
+
+        image = cv2.imread(os.path.join(settings.PHOTOS_PATH, photo.save_name))
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+        return self.success({'image_base64': cv2_base64(gray)})
 
 
 class ThumbPhotoAPI(APIView):

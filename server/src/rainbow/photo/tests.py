@@ -1,3 +1,4 @@
+import base64
 import random
 import tempfile
 
@@ -123,3 +124,15 @@ class WatchPhotoAPITest(APITestCase):
         data = create_test_data(1)
         resp = self.post(self.url, {'id': data[0]['id']})
         self.assertSuccess(resp)
+
+
+# class DownloadGrayPhotoAPITest(APITestCase):
+#     def setUp(self):
+#         self.url = self.get_url('DownloadGrayPhotoAPI')
+#
+#     def test_add_watch(self):
+#         resp = self.get(self.url)
+#         self.assertSuccess(resp)
+#         image_base64 = resp.data['data']['image_base64']
+#         with open('img.jpg', 'rb') as f:
+#             f.write(base64.b64decode(image_base64))

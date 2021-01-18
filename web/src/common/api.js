@@ -42,7 +42,7 @@ export const ThumbPhotoAPI = data => fetchData('/api/ThumbPhotoAPI', data, 'POST
 
 export const DownloadPhotoAPI = data =>
   axios({
-    method: 'POST',
+    method: 'GET',
     responseType: 'blob',
     url: '/api/DownloadPhotoAPI',
     data: qs.stringify(data),

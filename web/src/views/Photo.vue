@@ -111,7 +111,7 @@
                 })
             },
             downloadPhoto(id) {
-                DownloadPhotoAPI(id)
+                DownloadPhotoAPI({id: id})
                 .then(response => {
                   let fileName = response.headers['content-disposition'].split('=')
                   fileName = fileName[fileName.length - 1]
