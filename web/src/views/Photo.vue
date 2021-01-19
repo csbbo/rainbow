@@ -61,7 +61,7 @@
 
 <script>
     import '@/less/photo.less'
-    import '@/common/utils'
+    import {download} from '@/common/utils'
     import Footer from "../components/Footer";
     import Preloader from "../components/Preloader";
     import { GetPhotoListAPI, GetCategoryAPI, DownloadPhotoAPI, ThumbPhotoAPI } from "@/common/api"
@@ -111,13 +111,12 @@
                 })
             },
             downloadPhoto(id) {
-                DownloadPhotoAPI({id: id})
-                .then(response => {
-                  let fileName = response.headers['content-disposition'].split('=')
-                  fileName = fileName[fileName.length - 1]
-                  fileName = decodeURIComponent(fileName)
-                  fileName = fileName.replace(/"/g, '')
-                  this.common.download(response.data, fileName)
+                DownloadPhotoAPI({id: id}).then(response => {
+                    let fileName = response.headers['content-disposition'].split('=')
+                    fileName = fileName[fileName.length - 1]
+                    fileName = decodeURIComponent(fileName)
+                    fileName = fileName.replace(/"/g, '')
+                    download(response.data, fileName)
                 })
                 .catch(err => {
                   this.$notify.error(err)
