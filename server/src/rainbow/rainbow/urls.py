@@ -33,7 +33,7 @@ class ExportAPIEntryPoints:
             for name, _class in views:
                 url = f"api/{name}"
                 _urlpatterns.append(path(url, _class.as_view(), name=name))
-                logger.info(f"Detected {name}, url: {url}")
+                # logger.info(f"Detected {name}, url: {url}")
         return _urlpatterns
 
 
@@ -54,7 +54,7 @@ class ExportWebSocketEntryPoints:
             for name, _method in views:
                 url = f"{name.split('_')[0]}"
                 _urlpatterns.append(path(url, _method, name=name))
-                logger.info(f"Detected {name}, url: {url}")
+                # logger.info(f"Detected {name}, url: {url}")
         return _urlpatterns
 
 
