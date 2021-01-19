@@ -8,7 +8,7 @@ from django.utils import timezone
 
 from account.models import User
 from account.serializers import LoginSerializer, RegistSerializer, PhoneSerializer, EmailSerializer
-from management.utils import send_email_captcha
+from management.tasks import send_email_captcha_task
 from utils.api import APIView, check
 from utils.constans import UserTypeEnum
 from utils.shortcuts import rand_str
@@ -115,7 +115,5 @@ class EmailCaptchaAPI(APIView):
 
         captcha = rand_str(length=4, type='lower_hex')
         cache.set('captcha_' + email, captcha, timeout=120)
-        is_success = send_email_captcha(email, captcha)
-        if not is_success:
-            return self.error('发送失败!')
+        send_email_captcha_task.send(email, captcha)
         return self.success()
