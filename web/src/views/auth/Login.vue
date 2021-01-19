@@ -8,7 +8,7 @@
             </div>
             <div class="input-row">
                 <i class="material-icons">lock</i>
-                <input v-model="form.password" type="password" placeholder="密码"/>
+                <input @keyup.enter="login()" v-model="form.password" type="password" placeholder="密码"/>
             </div>
             <a @click="login()" class="waves-effect waves-light btn-small submit-btn">登录</a>
             <div class="auth-err">{{authErr}}</div>
