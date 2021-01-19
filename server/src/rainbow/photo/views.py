@@ -91,7 +91,7 @@ class UploadPhotoAPI(APIView):
 
 class DownloadPhotoAPI(APIView):
     @check(login_required=False, serializer=UUIDOnlySerializer)
-    def get(self, request):
+    def post(self, request):
         id = request.data['id']
         try:
             photo = Photo.objects.get(id=id)
@@ -104,7 +104,7 @@ class DownloadPhotoAPI(APIView):
 
 class DownloadGrayPhotoAPI(APIView):
     @check(login_required=False, serializer=UUIDOnlySerializer)
-    def get(self, request):
+    def post(self, request):
         id = request.data['id']
         try:
             photo = Photo.objects.get(id=id)
@@ -119,7 +119,7 @@ class DownloadGrayPhotoAPI(APIView):
 
 class DownloadSketchPhotoAPI(APIView):
     @check(login_required=False, serializer=UUIDOnlySerializer)
-    def get(self, request):
+    def post(self, request):
         id = request.data['id']
         try:
             photo = Photo.objects.get(id=id)

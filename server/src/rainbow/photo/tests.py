@@ -102,7 +102,7 @@ class UploadAndDownloadPhotoAPITest(APITestCase):
         id = resp.data['data']['id']
 
         # 下载
-        resp = self.get(self.download_url, data={'id': id})
+        resp = self.post(self.download_url, data={'id': id})
         self.assertSuccess(resp)
 
 
