@@ -14,6 +14,10 @@ services:
     image: redis:6.0-alpine
     container_name: rb_redis
     restart: always
+  rabbitmq:
+    image: rabbitmq:3.8.9-alpine
+    container_name: rb_rabbitmq
+    restart: always
   server:
     image: rb_server:latest
     container_name: rb_server
