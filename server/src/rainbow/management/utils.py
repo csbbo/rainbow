@@ -38,5 +38,5 @@ def send_email(to_list, subject, html):
 def send_email_captcha(email_addr, captcha):
     to_list = [email_addr, ]
     subject = 'send captcha'
-    html = f'you captcha is {captcha}'
+    html = f'your captcha is {captcha}'
     return send_email(to_list, subject, html)
