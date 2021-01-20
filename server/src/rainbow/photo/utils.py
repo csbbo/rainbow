@@ -11,10 +11,10 @@ def get_image_dpi(name, path=settings.PHOTOS_PATH):
     return f'{wide}x{high}'
 
 
-def cv2_base64(image):
-    base64_str = cv2.imencode('.jpg', image)[1].tobytes()
-    base64_str = base64.b64encode(base64_str)
-    return base64_str
+# def cv2_base64(image):
+#     base64_str = cv2.imencode('.jpg', image)[1].tobytes()
+#     base64_str = base64.b64encode(base64_str)
+#     return base64_str
 
 
 def to_sketch(image):
@@ -35,7 +35,7 @@ def to_sketch(image):
     return img_opening_blurred
 
 
-def to_cartoon(picture_name, output_name):
+def to_cartoon(picture_name):
     num_down = 2  # 缩减像素采样的数目
     num_bilateral = 7  # 定义双边滤波的数目
     img_rgb = cv2.imread(picture_name)  # 读取图片
@@ -61,5 +61,4 @@ def to_cartoon(picture_name, output_name):
     # 转换回彩色图像
     img_edge = cv2.cvtColor(img_edge, cv2.COLOR_GRAY2RGB)
     img_cartoon = cv2.bitwise_and(img_color, img_edge)
-    # 保存转换后的图片
-    cv2.imwrite(output_name, img_cartoon)
+    return img_cartoon

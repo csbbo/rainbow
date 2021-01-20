@@ -7,6 +7,7 @@ from urllib.parse import quote
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import QueryDict, HttpResponse
+from django.utils.http import urlquote
 from django.views.generic.base import View
 
 from utils.shortcuts import MyJSONEncoder
@@ -96,7 +97,14 @@ class APIView(View):
             msg = f"{error}"
         return self.error(err=f"invalid-{key}", msg=msg)
 
-    def download_photo(self, download_name, save_name):
+    def response_stream(self, stream, filename):
+        resp = HttpResponse(stream)
+        resp['Access-Control-Expose-Headers'] = 'Content-Disposition'
+        resp['Content-Disposition'] = f"attachment;filename={urlquote(filename)}"
+        resp["Content-Type"] = 'application/octet-stream'
+        return resp
+
+    def download_image(self, download_name, save_name):
         resp = self.success()
         resp['X-Accel-Redirect'] = f'/_/photo/{save_name}'
         resp['Content-Disposition'] = f"attachment; filename={quote(download_name)}"

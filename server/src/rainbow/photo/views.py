@@ -11,7 +11,7 @@ from django.db.models import Q
 
 from photo.models import Photo
 from photo.serializers import PhotoSerializer, CreatePhotoSerializer
-from photo.utils import cv2_base64, to_sketch
+from photo.utils import to_sketch, to_cartoon
 from utils.api import APIView, check
 from utils.serializers import UUIDOnlySerializer, UUIDListSerializer, UploadFileForm
 from utils.shortcuts import rand_str, datetime_pretty, save_file, end_of_day_seconds
@@ -99,7 +99,7 @@ class DownloadPhotoAPI(APIView):
             return self.error('图片不存在!')
 
         download_name = f"rainbow_{datetime_pretty(fmt='%Y%m%d')}_{rand_str(length=8)}.jpg"
-        return self.download_photo(download_name=download_name, save_name=photo.save_name)
+        return self.download_image(download_name=download_name, save_name=photo.save_name)
 
 
 class DownloadGrayPhotoAPI(APIView):
@@ -113,8 +113,9 @@ class DownloadGrayPhotoAPI(APIView):
 
         image = cv2.imread(os.path.join(settings.PHOTOS_PATH, photo.save_name))
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-        return self.success({'image_base64': cv2_base64(gray)})
+        stream = cv2.imencode('.jpg', gray)[1].tobytes()
+        filename = f"rainbow_gray_{datetime_pretty(fmt='%Y%m%d')}_{rand_str(length=8)}.jpg"
+        return self.response_stream(stream, filename=filename)
 
 
 class DownloadSketchPhotoAPI(APIView):
@@ -128,8 +129,25 @@ class DownloadSketchPhotoAPI(APIView):
 
         image = cv2.imread(os.path.join(settings.PHOTOS_PATH, photo.save_name))
         sketch = to_sketch(image)
+        stream = cv2.imencode('.jpg', sketch)[1].tobytes()
+        filename = f"rainbow_sketch_{datetime_pretty(fmt='%Y%m%d')}_{rand_str(length=8)}.jpg"
+        return self.response_stream(stream, filename)
 
-        return self.success({'image_base64': cv2_base64(sketch)})
+
+class DownloadCartoonPhotoAPI(APIView):
+    @check(login_required=False, serializer=UUIDOnlySerializer)
+    def post(self, request):
+        id = request.data['id']
+        try:
+            photo = Photo.objects.get(id=id)
+        except Photo.DoesNotExist:
+            return self.error('图片不存在!')
+
+        image = cv2.imread(os.path.join(settings.PHOTOS_PATH, photo.save_name))
+        cartoon = to_cartoon(image)
+        stream = cv2.imencode('.jpg', cartoon)[1].tobytes()
+        filename = f"rainbow_cartoon_{datetime_pretty(fmt='%Y%m%d')}_{rand_str(length=8)}.jpg"
+        return self.response_stream(stream, filename)
 
 
 class ThumbPhotoAPI(APIView):
