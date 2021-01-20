@@ -29,7 +29,16 @@
             </div>
         </div>
 
+        <div class="pagination">
+            <a class="waves-effect waves-light btn">上一页</a>
+            <span><span>1/4</span></span>
+              <select style="display: inline-block; width: 85px" class="browser-default">
+                <option v-for="option in page.options" v-bind:key="option" v-bind:value="option.value">{{option.text}}</option>
+              </select>
+            <a class="waves-effect waves-light btn">下一页</a>
+        </div>
         <footer-page v-if="photos"></footer-page>
+
         <preloader v-else></preloader>
 
         <!-------------------------------分割线---------------------------------->
@@ -75,6 +84,13 @@
         data: () => ({
             page: {
                 label: null,
+                pageSize: 10,
+                current_page: 1,
+                options: [
+                    {'value': 10, 'text': '10条/页'},
+                    {'value': 20, 'text': '20条/页'},
+                    {'value': 30, 'text': '30条/页'},
+                ]
             },
             photos: null,
             total: 0,
