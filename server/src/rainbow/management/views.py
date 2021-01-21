@@ -1,5 +1,6 @@
 import logging
 
+from django.conf import settings
 from django.core.cache import cache
 
 from management.models import GuestBook
@@ -8,7 +9,8 @@ from photo.models import Photo
 from photo.serializers import PhotoSerializer
 from utils.api import APIView, check
 from utils.constans import PhotoTypeEnum
-from utils.shortcuts import end_of_day_seconds
+from utils.serializers import UploadFileForm
+from utils.shortcuts import end_of_day_seconds, rand_str, save_file
 
 logger = logging.getLogger(__name__)
 
@@ -39,6 +41,28 @@ class GuestBookAPI(APIView):
 
         GuestBook.objects.create(**data)
         return self.success()
+
+
+class UploadFileAPI(APIView):
+    request_header = ()
+
+    @check(permission='__all__')
+    def post(self, request):
+        upload_file_form = UploadFileForm(request.POST, request.FILES)
+        if not upload_file_form.is_valid():
+            return self.error(msg='文件上传失败!')
+
+        file = request.FILES['file']
+        upload_name = file.name.split('.')[0]
+        save_name = rand_str(length=32)
+
+        try:
+            save_file(save_name, file, path=settings.DOWNLOAD_PATH)
+        except Exception as e:
+            logger.error(e)
+            return self.error('文件上传失败!')
+
+        return self.success({'upload_name': upload_name, 'save_name': save_name})
 
 
 class MainPageAPI(APIView):

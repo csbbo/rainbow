@@ -65,7 +65,7 @@
               let headers = {
                 headers: { "Content-Type": "multipart/form-data" }
               };
-              ajax.post("/api/UploadPhotoAPI", param, headers).then(resp => {
+              ajax.post("/api/UploadFileAPI", param, headers).then(resp => {
                 if (resp.data.err === null) {
                     console.log('success!')
                 }

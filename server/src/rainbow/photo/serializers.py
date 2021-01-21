@@ -23,3 +23,14 @@ class CreatePhotoSerializer(serializers.Serializer):
 
     save_name = serializers.CharField(max_length=64)
     upload_name = serializers.CharField(max_length=200)
+
+
+class PublishPhotoSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=40, required=False)
+    description = serializers.CharField(max_length=200, required=False)
+
+    copyright = serializers.CharField(max_length=200, required=False)
+    category = serializers.ListField(child=serializers.CharField(max_length=10), required=False)
+
+    save_name = serializers.CharField(max_length=64)
+    now_name = serializers.CharField(max_length=200)

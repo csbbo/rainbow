@@ -9,12 +9,12 @@ from django.core.cache import cache
 from django.db import transaction
 from django.db.models import Q
 
-from photo.models import Photo
-from photo.serializers import PhotoSerializer, CreatePhotoSerializer
+from photo.models import Photo, PhotoCheck
+from photo.serializers import PhotoSerializer, CreatePhotoSerializer, PublishPhotoSerializer
 from photo.utils import to_sketch, to_cartoon
 from utils.api import APIView, check
-from utils.serializers import UUIDOnlySerializer, UUIDListSerializer, UploadFileForm
-from utils.shortcuts import rand_str, datetime_pretty, save_file, end_of_day_seconds
+from utils.serializers import UUIDOnlySerializer, UUIDListSerializer
+from utils.shortcuts import rand_str, datetime_pretty, end_of_day_seconds
 
 logger = logging.getLogger(__name__)
 
@@ -68,25 +68,10 @@ class PhotoListAPI(APIView):
         return self.success(data)
 
 
-class UploadPhotoAPI(APIView):
-    request_header = ()
-
-    @check(permission='__all__')
+class PublishPhotoAPI(APIView):
+    @check(permission='__all__', serializer=PublishPhotoSerializer)
     def post(self, request):
-        upload_file_form = UploadFileForm(request.POST, request.FILES)
-        if not upload_file_form.is_valid():
-            return self.error(msg='文件上传失败!')
-
-        file = request.FILES['file']
-        upload_name = file.name.split('.')[0]
-        save_name = rand_str(length=32)
-
-        try:
-            save_file(save_name, file, path=settings.DOWNLOAD_PATH)
-            return self.success({'upload_name': upload_name, 'save_name': save_name})
-        except Exception as e:
-            logger.error(e)
-            return self.error('图片存储失败!')
+        pass
 
 
 class DownloadPhotoAPI(APIView):
