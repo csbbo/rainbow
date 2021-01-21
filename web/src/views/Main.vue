@@ -67,7 +67,7 @@
           <div class="footer-copyright">
             <div class="container">
             © 2020 Copyright Rainbow
-            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+            <a class="grey-text text-lighten-4 right" href="https://beian.miit.gov.cn">桂ICP备17011922号-1</a>
             </div>
           </div>
         </footer>

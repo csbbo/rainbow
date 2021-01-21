@@ -71,7 +71,9 @@ class PhotoListAPI(APIView):
 class PublishPhotoAPI(APIView):
     @check(permission='__all__', serializer=PublishPhotoSerializer)
     def post(self, request):
-        pass
+        data = request.data
+        PhotoCheck.objects.create(**data)
+        return self.success()
 
 
 class DownloadPhotoAPI(APIView):
