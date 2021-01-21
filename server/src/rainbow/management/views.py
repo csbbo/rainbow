@@ -68,6 +68,16 @@ class UploadFileAPI(APIView):
 class MainPageAPI(APIView):
     @check(login_required=False)
     def get(self, request):
-        bing_newest_photo = Photo.objects.filter(category__contains=[PhotoTypeEnum.bing, ]).order_by('-create_time').first()
-        bing_photo = PhotoSerializer(bing_newest_photo).data
-        return self.success({'bing': bing_photo})
+        bing_newest = Photo.objects.filter(category__contains=[PhotoTypeEnum.bing, ]).order_by('-create_time').first()
+        anime = Photo.objects.filter(id='7907c365-7b1f-474c-8fcb-0b0632329552').first()
+        landscape = Photo.objects.filter(id='507722f-933f-48e3-aad4-6a4be21f1045').first()
+        carousel_images = [
+            {'path': '/_/photo/' + bing_newest.now_name, 'tagline': 'This is our big Tagline!', 'slogan': "Here's our small slogan."},
+            {'path': '/_/photo/' + anime.now_name, 'tagline': 'This is our big Tagline!', 'slogan': "Here's our small slogan."},
+            {'path': '/_/photo/' + landscape.now_name, 'tagline': 'This is our big Tagline!', 'slogan': "Here's our small slogan."},
+        ]
+
+        data = {
+            'carousel_images': carousel_images
+        }
+        return self.success(data)
