@@ -9,9 +9,9 @@
         </ul>
         <nav>
           <div class="nav-wrapper">
-            <a href="#!" class="brand-logo">Logo</a>
+            <a href="#!" class="brand-logo">Rainbow</a>
             <ul class="right hide-on-med-and-down">
-              <li><router-link to="/photo">Photo</router-link></li>
+              <li><router-link to="/photo">Components</router-link></li>
               <li><a href="badges.html">Components</a></li>
               <!-- Dropdown Trigger -->
               <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
@@ -19,32 +19,60 @@
           </div>
         </nav>
 
-          <div class="carousel carousel-slider">
-            <a class="carousel-item" href="#one!"><img src="/_/photo/22020d390bbfcadb60e89a2d0122dc67"></a>
-            <a class="carousel-item" href="#two!"><img src="/_/photo/8a03d0ebcd49714266b5c55676e9bc17"></a>
-          </div>
+        <div class="slider">
+          <ul class="slides">
+            <li>
+              <img src="http://h2.ioliu.cn/bing/BrightonSnow_ZH-CN0309526170_1920x1080.jpg"> <!-- random image -->
+              <div class="caption center-align">
+                <h3>This is our big Tagline!</h3>
+                <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+              </div>
+            </li>
+            <li>
+              <img src="http://h2.ioliu.cn/bing/SierraNevada_ZH-CN0564237735_1920x1080.jpg"> <!-- random image -->
+              <div class="caption left-align">
+                <h3>Left Aligned Caption</h3>
+                <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+              </div>
+            </li>
+            <li>
+              <img src="http://h2.ioliu.cn/bing/RedFrontMacaw_ZH-CN6432596112_1920x1080.jpg?imageslim"> <!-- random image -->
+              <div class="caption right-align">
+                <h3>Right Aligned Caption</h3>
+                <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+              </div>
+            </li>
+            <li>
+              <img src="http://h2.ioliu.cn/bing/DiamondBeach_ZH-CN3165398805_800x480.jpg"> <!-- random image -->
+              <div class="caption center-align">
+                <h3>This is our big Tagline!</h3>
+                <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+              </div>
+            </li>
+          </ul>
+        </div>
 
-<!--          <div class="carousel carousel-slider center">-->
-<!--            <div class="carousel-fixed-item center">-->
-<!--              <a class="btn waves-effect white grey-text darken-text-2">button</a>-->
-<!--            </div>-->
-<!--            <div class="carousel-item red white-text" href="#one!">-->
-<!--              <h2>First Panel</h2>-->
-<!--              <p class="white-text">This is your first panel</p>-->
-<!--            </div>-->
-<!--            <div class="carousel-item amber white-text" href="#two!">-->
-<!--              <h2>Second Panel</h2>-->
-<!--              <p class="white-text">This is your second panel</p>-->
-<!--            </div>-->
-<!--            <div class="carousel-item green white-text" href="#three!">-->
-<!--              <h2>Third Panel</h2>-->
-<!--              <p class="white-text">This is your third panel</p>-->
-<!--            </div>-->
-<!--            <div class="carousel-item blue white-text" href="#four!">-->
-<!--              <h2>Fourth Panel</h2>-->
-<!--              <p class="white-text">This is your fourth panel</p>-->
-<!--            </div>-->
-<!--          </div>-->
+        <div class="carousel carousel-slider center">
+          <div class="carousel-fixed-item center">
+            <a class="btn waves-effect white grey-text darken-text-2">button</a>
+          </div>
+          <div class="carousel-item red white-text" href="#one!">
+            <h2>First Panel</h2>
+            <p class="white-text">This is your first panel</p>
+          </div>
+          <div class="carousel-item amber white-text" href="#two!">
+            <h2>Second Panel</h2>
+            <p class="white-text">This is your second panel</p>
+          </div>
+          <div class="carousel-item green white-text" href="#three!">
+            <h2>Third Panel</h2>
+            <p class="white-text">This is your third panel</p>
+          </div>
+          <div class="carousel-item blue white-text" href="#four!">
+            <h2>Fourth Panel</h2>
+            <p class="white-text">This is your fourth panel</p>
+          </div>
+        </div>
 
         <footer class="page-footer">
           <div class="container">
@@ -82,12 +110,12 @@
         mounted() {
             window.jQuery(document).ready(function(){
                 window.jQuery(".dropdown-trigger").dropdown();
+                window.jQuery('.slider').slider();
             });
 
             window.jQuery('.carousel.carousel-slider').carousel({
                 fullWidth: true,
                 indicators: true,
-                numVisible: 2,
             });
         },
     }
