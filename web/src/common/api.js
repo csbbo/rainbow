@@ -35,7 +35,6 @@ export const GetPhotoListAPI = data => fetchData('/api/PhotoListAPI', data, 'GET
 export const GetPhotoAPI = data => fetchData('/api/PhotoAPI', data, 'GET')
 export const GetCategoryAPI = () => fetchData('/api/CategoryAPI', {}, 'GET')
 export const ThumbPhotoAPI = data => fetchData('/api/ThumbPhotoAPI', data, 'POST')
-// export const DownloadPhotoAPI = data => fetchData('/api/DownloadPhotoAPI', data, 'GET')
 export const DownloadPhotoAPI = data =>
   axios({
     method: 'POST',

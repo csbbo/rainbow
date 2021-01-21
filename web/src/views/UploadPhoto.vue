@@ -6,7 +6,11 @@
                 <div class="file-field input-field">
                   <div class="btn">
                     <span>File</span>
-                    <input type="file">
+                    <input @change="uploadImage"
+                           type="file"
+                           multiple
+                           accept="image/png, image/gif, image/jpeg"
+                    />
                   </div>
                   <div class="file-path-wrapper">
                     <input class="file-path validate" type="text">
@@ -48,8 +52,25 @@
 </template>
 
 <script>
+    import ajax from "axios";
     import "@/less/uploadphoto.less"
     export default {
         name: "UploadPhoto",
+        methods: {
+            uploadImage(e) {
+              let file = e.target.files[0];
+              let param = new FormData();
+              param.append("file", file);
+              console.log(param.get("file"));
+              let headers = {
+                headers: { "Content-Type": "multipart/form-data" }
+              };
+              ajax.post("/api/UploadPhotoAPI", param, headers).then(resp => {
+                if (resp.data.err === null) {
+                    console.log('success!')
+                }
+              });
+            },
+        }
     }
 </script>

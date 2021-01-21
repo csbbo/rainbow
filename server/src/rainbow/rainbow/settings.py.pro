@@ -181,3 +181,4 @@ STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, "/dev/resources/static"))
 # 资源路径
 DEFAULT_RESOURCES_DIR = os.path.abspath(os.path.join(BASE_DIR, "/dev/resources"))
 PHOTOS_PATH = os.path.abspath(os.path.join(DEFAULT_RESOURCES_DIR, "photos"))
+DOWNLOAD_PATH = os.path.abspath(os.path.join(DEFAULT_RESOURCES_DIR, "download"))

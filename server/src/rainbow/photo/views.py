@@ -82,7 +82,7 @@ class UploadPhotoAPI(APIView):
         save_name = rand_str(length=32)
 
         try:
-            save_file(save_name, file, path=settings.PHOTOS_PATH)
+            save_file(save_name, file, path=settings.DOWNLOAD_PATH)
             return self.success({'upload_name': upload_name, 'save_name': save_name})
         except Exception as e:
             logger.error(e)

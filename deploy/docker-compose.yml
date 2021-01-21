@@ -28,6 +28,7 @@ services:
     volumes:
       - "./deploy/collectstatic:/dev/resources/static"
       - "./deploy/photos:/dev/resources/photos"
+      - "./deploy/download:/dev/resources/download"
       - "./deploy/logs/server:/dev/resources/logs"
   nginx:
     image: rb_nginx:latest
@@ -43,4 +44,5 @@ services:
     volumes:
       - "./deploy/collectstatic:/web/resources/collectstatic"
       - "./deploy/photos:/web/resources/photos"
+      - "./deploy/download:/dev/resources/download"
       - "./deploy/logs/nginx:/var/log/nginx"
