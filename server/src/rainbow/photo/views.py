@@ -9,8 +9,8 @@ from django.core.cache import cache
 from django.db import transaction
 from django.db.models import Q
 
-from photo.models import Photo, PhotoCheck
-from photo.serializers import PhotoSerializer, CreatePhotoSerializer, PublishPhotoSerializer
+from photo.models import Photo
+from photo.serializers import PhotoSerializer, CreatePhotoSerializer
 from photo.utils import to_sketch, to_cartoon
 from utils.api import APIView, check
 from utils.serializers import UUIDOnlySerializer, UUIDListSerializer
@@ -68,12 +68,12 @@ class PhotoListAPI(APIView):
         return self.success(data)
 
 
-class PublishPhotoAPI(APIView):
-    @check(permission='__all__', serializer=PublishPhotoSerializer)
-    def post(self, request):
-        data = request.data
-        PhotoCheck.objects.create(**data)
-        return self.success()
+# class PublishPhotoAPI(APIView):
+#     @check(permission='__all__', serializer=PublishPhotoSerializer)
+#     def post(self, request):
+#         data = request.data
+#         PhotoCheck.objects.create(**data)
+#         return self.success()
 
 
 class DownloadPhotoAPI(APIView):

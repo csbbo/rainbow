@@ -5,8 +5,6 @@ from django.core.cache import cache
 
 from management.models import GuestBook
 from management.serializers import GuestBookSerializer
-from photo.models import Photo
-from photo.serializers import PhotoSerializer
 from utils.api import APIView, check
 from utils.constans import PhotoTypeEnum
 from utils.serializers import UploadFileForm
@@ -63,21 +61,3 @@ class UploadFileAPI(APIView):
             return self.error('文件上传失败!')
 
         return self.success({'upload_name': upload_name, 'save_name': save_name})
-
-
-class MainPageAPI(APIView):
-    @check(login_required=False)
-    def get(self, request):
-        bing_newest = Photo.objects.filter(category__contains=[PhotoTypeEnum.bing, ]).order_by('-create_time').first()
-        anime = Photo.objects.filter(id='7907c365-7b1f-474c-8fcb-0b0632329552').first()
-        landscape = Photo.objects.filter(id='507722f-933f-48e3-aad4-6a4be21f1045').first()
-        carousel_images = [
-            {'path': '/_/photo/' + bing_newest.now_name, 'tagline': 'This is our big Tagline!', 'slogan': "Here's our small slogan."},
-            {'path': '/_/photo/' + anime.now_name, 'tagline': 'This is our big Tagline!', 'slogan': "Here's our small slogan."},
-            {'path': '/_/photo/' + landscape.now_name, 'tagline': 'This is our big Tagline!', 'slogan': "Here's our small slogan."},
-        ]
-
-        data = {
-            'carousel_images': carousel_images
-        }
-        return self.success(data)

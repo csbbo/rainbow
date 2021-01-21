@@ -21,11 +21,32 @@
 
         <div class="slider">
           <ul class="slides">
-            <li v-for="(index, image) in carouselImages" :key="index">
-              <img :src="image.path"> <!-- random image -->
-              <div class="caption center-align"> <!--  文字位置后边再说  -->
-                <h3>{{image.tagline}}</h3>
-                <h5 class="light grey-text text-lighten-3">{{image.slogan}}</h5>
+            <li>
+              <img src="http://h2.ioliu.cn/bing/FreshSalt_ZH-CN12818759319_1920x1080.jpg?imageslim"> <!-- random image -->
+              <div class="caption center-align">
+                <h3>This is our big Tagline!</h3>
+                <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+              </div>
+            </li>
+            <li>
+              <img src="http://h2.ioliu.cn/bing/PingganVillage_ZH-CN10035092925_1920x1080.jpg?imageslim"> <!-- random image -->
+              <div class="caption center-align">
+                <h3>Left Aligned Caption</h3>
+                <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+              </div>
+            </li>
+            <li>
+              <img src="http://h2.ioliu.cn/bing/Aoraki_ZH-CN7776353328_1920x1080.jpg?imageslim"> <!-- random image -->
+              <div class="caption left-align">
+                <h3>Right Aligned Caption</h3>
+                <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+              </div>
+            </li>
+            <li>
+              <img src="http://h2.ioliu.cn/bing/LuciolaCruciata_ZH-CN9063767400_1920x1080.jpg?imageslim"> <!-- random image -->
+              <div class="caption right-align">
+                <h3>This is our big Tagline!</h3>
+                <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
               </div>
             </li>
           </ul>
@@ -83,7 +104,6 @@
 
 <script>
     import '@/less/main.less'
-    import { MainPageAPI } from '@/common/api'
     window.$ = window.jQuery = require('jquery');
     export default {
       name: "Main",
@@ -101,11 +121,6 @@
               indicators: true,
           });
       },
-      created() {
-          MainPageAPI().then(resp => {
-            this.carouselImages = resp.data.carousel_images
-          })
-      }
     }
 </script>
 
