@@ -21,7 +21,7 @@ def cost_time(func):
 
 @cost_time
 def photo_list():
-    url = 'https://magicstyle.fun' + '/api/PhotoListAPI'
+    url = 'https://rainbow.shaobo.fun' + '/api/PhotoListAPI'
     r = requests.get(url)
     print(r.json())
 
