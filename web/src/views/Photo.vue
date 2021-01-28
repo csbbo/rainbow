@@ -1,6 +1,6 @@
 <template>
     <div id="Photo">
-        <div v-if="category.length > 0" class="filter">
+        <div v-if="category.length > 0 && photos" class="filter">
             <div class="categorys">
                 <span class="name">标签: </span>
                 <span class="category" v-bind:class="{labelpick: page.choose_cat==null}" @click="page.choose_cat=null;getPhoto()">全部</span>
@@ -29,7 +29,7 @@
             </div>
         </div>
 
-        <div class="pagination">
+        <div v-if="photos" class="pagination">
             <a @click="prePage()" class="waves-effect waves-light btn">上一页</a>
             <span><span>{{page.offset+1}}/{{parseInt(total/page.count) +1}}</span></span>
             <a @click="nextPage()" class="waves-effect waves-light btn">下一页</a>
