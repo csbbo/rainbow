@@ -21,7 +21,7 @@ def cost_time(func):
 
 @cost_time
 def photo_list():
-    url = 'https://rainbow.shaobo.fun' + '/api/PhotoListAPI'
+    url = 'https://rainbow.shaobo.fun' + '/api/PhotoListAPI?count=12&offset=0'
     r = requests.get(url)
     print(r.json())
 
