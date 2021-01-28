@@ -3,8 +3,8 @@
         <div v-if="category.length > 0" class="filter">
             <div class="categorys">
                 <span class="name">标签: </span>
-                <span class="category" v-bind:class="{labelpick: page.label==null}" @click="page.label=null;getPhoto()">全部</span>
-                <span v-for="(cat, index) in category" :key="index" class="category" v-bind:class="{labelpick: page.label===cat}" @click="page.label=cat;getPhoto(cat, null)">{{cat}}</span>
+                <span class="category" v-bind:class="{labelpick: page.choose_cat==null}" @click="page.choose_cat=null;getPhoto()">全部</span>
+                <span v-for="(cat, index) in category" :key="index" class="category" v-bind:class="{labelpick: page.choose_cat===cat}" @click="page.choose_cat=cat;getPhoto()">{{cat}}</span>
             </div>
         </div>
 
@@ -30,12 +30,9 @@
         </div>
 
         <div class="pagination">
-            <a class="waves-effect waves-light btn">上一页</a>
-            <span><span>1/4</span></span>
-              <select style="display: inline-block; width: 85px" class="browser-default">
-                <option v-for="option in page.options" v-bind:key="option" v-bind:value="option.value">{{option.text}}</option>
-              </select>
-            <a class="waves-effect waves-light btn">下一页</a>
+            <a @click="prePage()" class="waves-effect waves-light btn">上一页</a>
+            <span><span>{{page.offset+1}}/{{parseInt(total/page.count) +1}}</span></span>
+            <a @click="nextPage()" class="waves-effect waves-light btn">下一页</a>
         </div>
         <footer-page v-if="photos"></footer-page>
 
@@ -83,14 +80,10 @@
         },
         data: () => ({
             page: {
-                label: null,
-                pageSize: 10,
-                current_page: 1,
-                options: [
-                    {'value': 10, 'text': '10条/页'},
-                    {'value': 20, 'text': '20条/页'},
-                    {'value': 30, 'text': '30条/页'},
-                ]
+                count: 12,
+                offset: 0,
+                search: null,
+                choose_cat: null,
             },
             photos: null,
             total: 0,
@@ -109,12 +102,16 @@
             this.getPhoto()
         },
         methods: {
-            getPhoto(category, search, count=18, offset=0) {
-                const data = {
-                    category: category,
-                    search: search,
-                    count: count,
-                    offset: offset,
+            getPhoto() {
+                let data = {
+                    count: this.page.count,
+                    offset: this.page.offset,
+                }
+                if(this.page.choose_cat) {
+                    data['category'] = this.page.choose_cat
+                }
+                if(this.page.search) {
+                    data['search'] = this.page.search
                 }
                 GetPhotoListAPI(data).then(resp => {
                     this.photos = resp.data.items
@@ -125,6 +122,20 @@
                 GetCategoryAPI().then(resp => {
                     this.category = resp.data.category
                 })
+            },
+            nextPage() {
+                if((this.page.offset+1) === (parseInt(this.total/this.page.count)+1)) {
+                    return
+                }
+                this.page.offset = this.page.offset+1
+                this.getPhoto()
+            },
+            prePage() {
+                if((this.page.offset+1) === 1) {
+                    return
+                }
+                this.page.offset = this.page.offset-1
+                this.getPhoto()
             },
             downloadPhoto(id) {
                 DownloadPhotoAPI({id: id}).then(response => {
