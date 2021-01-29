@@ -44,3 +44,33 @@ export const DownloadPhotoAPI = data =>
   })
     .then(response => response)
     .catch(err => err)
+
+export const DownloadGrayPhotoAPI = data =>
+  axios({
+    method: 'POST',
+    responseType: 'blob',
+    url: '/api/DownloadGrayPhotoAPI',
+    data: qs.stringify(data),
+  })
+    .then(response => response)
+    .catch(err => err)
+
+export const DownloadSketchPhotoAPI = data =>
+  axios({
+    method: 'POST',
+    responseType: 'blob',
+    url: '/api/DownloadSketchPhotoAPI',
+    data: qs.stringify(data),
+  })
+    .then(response => response)
+    .catch(err => err)
+
+export const DownloadCartoonPhotoAPI = data =>
+  axios({
+    method: 'POST',
+    responseType: 'blob',
+    url: '/api/DownloadCartoonPhotoAPI',
+    data: qs.stringify(data),
+  })
+    .then(response => response)
+    .catch(err => err)

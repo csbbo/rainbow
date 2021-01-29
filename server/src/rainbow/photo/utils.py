@@ -34,11 +34,11 @@ def to_sketch(image):
     img_opening_blurred = cv2.GaussianBlur(img_opening, (3, 3), 0)
     return img_opening_blurred
 
-
-def to_cartoon(picture_name):
+# have some problem
+def to_cartoon(image):
     num_down = 2  # 缩减像素采样的数目
     num_bilateral = 7  # 定义双边滤波的数目
-    img_rgb = cv2.imread(picture_name)  # 读取图片
+    img_rgb = image
     # 用高斯金字塔降低取样
     img_color = img_rgb
     for _ in range(num_down):
