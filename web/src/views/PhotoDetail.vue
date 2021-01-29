@@ -7,7 +7,7 @@
         <preloader v-else></preloader>
 
         <div class="description">
-            <div v-if="photo.create_time" class="createday">{{photo.create_time}}</div>
+            <div v-if="photo.create_time" class="createday">{{photo.create_time | formatDate}}</div>
             <div v-if="photo.name" class="name">{{photo.name}}</div>
             <div v-if="photo.description" class="desc">{{photo.description}}</div>
             <div v-if="photo.copyright" class="copyright">{{photo.copyright}}</div>
@@ -26,6 +26,7 @@
 <script>
     import '@/less/photodetail.less'
     import {GetPhotoAPI} from "@/common/api"
+    import {formatDate} from "@/common/filter"
     import Preloader from "../components/Preloader";
     export default {
         name: "PhotoDetail",
@@ -48,7 +49,10 @@
                     this.photo = resp.data
                 })
             }
-        }
+        },
+        filters: {
+            formatDate: formatDate
+        },
     }
 </script>
 
