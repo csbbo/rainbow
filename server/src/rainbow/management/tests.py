@@ -9,3 +9,6 @@ class GuestBookAPITest(APITestCase):
     def test_leave_message(self):
         resp = self.post(self.url, {'content': 'leave a message...'})
         self.assertSuccess(resp)
+
+        resp = self.get(self.url)
+        self.assertSuccess(resp)

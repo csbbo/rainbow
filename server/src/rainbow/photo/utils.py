@@ -35,7 +35,7 @@ def to_sketch(image):
     return img_opening_blurred
 
 
-def cartoonise(image):
+def to_cartoon(image):
     num_down = 2  # 缩减像素采样的数目
     num_bilateral = 7  # 定义双边滤波的数目
     # 用高斯金字塔降低取样

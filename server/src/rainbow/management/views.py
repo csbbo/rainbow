@@ -4,7 +4,7 @@ from django.conf import settings
 from django.core.cache import cache
 
 from management.models import GuestBook
-from management.serializers import GuestBookSerializer
+from management.serializers import GuestBookSerializer, CreateGuestBookSerializer
 from utils.api import APIView, check
 from utils.constans import PhotoTypeEnum
 from utils.serializers import UploadFileForm
@@ -20,13 +20,19 @@ class CategoryAPI(APIView):
 
 
 class GuestBookAPI(APIView):
-    @check(login_required=False, serializer=GuestBookSerializer)
+    @check(login_required=False)
+    def get(self, request):
+        guest_books = GuestBook.objects.all()
+        data = GuestBookSerializer(guest_books, many=True).data
+        return self.success(data)
+
+    @check(login_required=False, serializer=CreateGuestBookSerializer)
     def post(self, request):
         data = {
             'ip_addr': request.META.get('REMOTE_ADDR'),
             'content': request.data.get('content'),
             'user_agent': request.META.get('HTTP_USER_AGENT'),
-            'user': request.user.username
+            'user': request.user.username if request.user.username else None
         }
 
         guest_book_count = cache.get('guest_book_' + data['ip_addr'])
