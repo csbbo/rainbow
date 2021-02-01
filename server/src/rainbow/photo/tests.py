@@ -68,42 +68,42 @@ class PhotoAPIAPITest(APITestCase):
         self.assertSuccess(resp)
 
 
-class UploadAndDownloadPhotoAPITest(APITestCase):
-    def setUp(self):
-        self.upload_url = self.get_url('UploadPhotoAPI')
-        self.download_url = self.get_url('DownloadPhotoAPI')
-        self.createphoto_url = self.get_url('PhotoAPI')
-
-        self.create_user()
-
-    def test_upload_and_download_photo_api(self):
-        # 第一步上传图片，获取图片名和图片保存在server的名字
-        with tempfile.TemporaryFile() as tmp:
-            tmp.write(b'Hello world!')
-            tmp.seek(0)
-            resp = self.client.post(self.upload_url, data={"file": tmp}, format='multipart')
-        self.assertSuccess(resp)
-        save_name = resp.data['data']['save_name']
-        upload_name = resp.data['data']['upload_name']
-
-        # 创建photo
-        data = {
-            'name': 'rainbow_test',
-            'description': 'rainbow test description',
-
-            'copyright': '©rainbow',
-            'category': [PhotoTypeEnum.bing, PhotoTypeEnum.anime],
-
-            'save_name': save_name,
-            'upload_name': upload_name
-        }
-        resp = self.post(self.createphoto_url, data=data)
-        self.assertSuccess(resp)
-        id = resp.data['data']['id']
-
-        # 下载
-        resp = self.post(self.download_url, data={'id': id})
-        self.assertSuccess(resp)
+# class UploadAndDownloadPhotoAPITest(APITestCase):
+#     def setUp(self):
+#         self.upload_url = self.get_url('UploadPhotoAPI')
+#         self.download_url = self.get_url('DownloadPhotoAPI')
+#         self.createphoto_url = self.get_url('PhotoAPI')
+#
+#         self.create_user()
+#
+#     def test_upload_and_download_photo_api(self):
+#         # 第一步上传图片，获取图片名和图片保存在server的名字
+#         with tempfile.TemporaryFile() as tmp:
+#             tmp.write(b'Hello world!')
+#             tmp.seek(0)
+#             resp = self.client.post(self.upload_url, data={"file": tmp}, format='multipart')
+#         self.assertSuccess(resp)
+#         save_name = resp.data['data']['save_name']
+#         upload_name = resp.data['data']['upload_name']
+#
+#         # 创建photo
+#         data = {
+#             'name': 'rainbow_test',
+#             'description': 'rainbow test description',
+#
+#             'copyright': '©rainbow',
+#             'category': [PhotoTypeEnum.bing, PhotoTypeEnum.anime],
+#
+#             'save_name': save_name,
+#             'upload_name': upload_name
+#         }
+#         resp = self.post(self.createphoto_url, data=data)
+#         self.assertSuccess(resp)
+#         id = resp.data['data']['id']
+#
+#         # 下载
+#         resp = self.post(self.download_url, data={'id': id})
+#         self.assertSuccess(resp)
 
 
 class ThumbPhotoAPITest(APITestCase):

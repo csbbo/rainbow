@@ -7,7 +7,7 @@ from django.db import transaction
 from django.utils import timezone
 
 from account.models import User
-from account.serializers import LoginSerializer, RegistSerializer, PhoneSerializer, EmailSerializer
+from account.serializers import LoginSerializer, RegistSerializer, PhoneSerializer, EmailSerializer, UserSerializer
 from management.tasks import send_email_captcha_task
 from utils.api import APIView, check
 from utils.constans import UserTypeEnum
@@ -83,14 +83,18 @@ class LogoutAPI(APIView):
 
 
 class AuthInfoAPI(APIView):
-    @check(login_required=True, permission='__all__')
+    def get(self, request):
+        if not request.user.is_authenticated:
+            return self.error('not login')
+        return self.success({'username': request.user.username})
+
+
+class UserAPI(APIView):
+    @check(permission='__all__')
     def get(self, request):
         user = request.user
-        data = {
-            'username': user.username
-        }
+        data = UserSerializer(user).data
         return self.success(data)
-
 
 # not use
 class PhoneCaptchaAPI(APIView):

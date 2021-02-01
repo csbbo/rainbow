@@ -2,6 +2,8 @@ import re
 
 from rest_framework import serializers
 
+from account.models import User
+
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=32)
@@ -14,6 +16,12 @@ class RegistSerializer(serializers.Serializer):
     email = serializers.EmailField(max_length=100, required=False)
     tel = serializers.CharField(max_length=11, min_length=11, required=False)
     captcha = serializers.CharField(max_length=4, min_length=4)
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'tel', 'user_type', 'last_login_time', 'create_time')
 
 
 class PhoneSerializer(serializers.Serializer):

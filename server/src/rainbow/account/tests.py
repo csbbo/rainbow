@@ -48,6 +48,16 @@ class AuthInfoAPITest(APITestCase):
         self.assertSuccess(resp)
 
 
+class UserAPITest(APITestCase):
+    def setUp(self):
+        self.url = self.get_url("UserAPI")
+        self.create_user(username='bob', password='123456', login=True)
+
+    def test_user_info(self):
+        resp = self.get(self.url)
+        self.assertSuccess(resp)
+
+
 class EmailCaptchaAPITest(APITestCase):
     def setUp(self):
         self.url = self.get_url('EmailCaptchaAPI')
