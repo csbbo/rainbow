@@ -96,6 +96,7 @@ class UserAPI(APIView):
         data = UserSerializer(user).data
         return self.success(data)
 
+
 # not use
 class PhoneCaptchaAPI(APIView):
     @check(login_required=False, serializer=PhoneSerializer)
