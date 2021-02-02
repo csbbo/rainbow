@@ -57,6 +57,9 @@ class UserAPITest(APITestCase):
         resp = self.get(self.url)
         self.assertSuccess(resp)
 
+        resp = self.put(self.url, data={'username': 'bob1', 'email': 'bob@raibow.com', 'tel': 12345678901})
+        self.assertSuccess(resp)
+
 
 class EmailCaptchaAPITest(APITestCase):
     def setUp(self):

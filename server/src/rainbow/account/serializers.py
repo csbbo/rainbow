@@ -24,6 +24,12 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('username', 'email', 'tel', 'user_type', 'last_login_time', 'create_time')
 
 
+class UpdateUserSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=32, required=False)
+    email = serializers.EmailField(max_length=100, required=False)
+    tel = serializers.CharField(max_length=11, min_length=11, required=False)
+
+
 class PhoneSerializer(serializers.Serializer):
     phone = serializers.CharField()
 

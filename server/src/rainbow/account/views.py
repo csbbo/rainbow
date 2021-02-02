@@ -7,7 +7,8 @@ from django.db import transaction
 from django.utils import timezone
 
 from account.models import User
-from account.serializers import LoginSerializer, RegistSerializer, PhoneSerializer, EmailSerializer, UserSerializer
+from account.serializers import LoginSerializer, RegistSerializer, PhoneSerializer, EmailSerializer, UserSerializer, \
+    UpdateUserSerializer
 from management.tasks import send_email_captcha_task
 from utils.api import APIView, check
 from utils.constans import UserTypeEnum
@@ -95,6 +96,15 @@ class UserAPI(APIView):
         user = request.user
         data = UserSerializer(user).data
         return self.success(data)
+
+    @check(permission='__all__', serializer=UpdateUserSerializer)
+    def put(self, request):
+        user = request.user
+        data = request.data
+        for k, v in data.items():
+            setattr(user, k, v)
+        user.save()
+        return self.success()
 
 
 # not use
